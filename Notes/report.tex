@@ -48,6 +48,57 @@ Let us denote the set of Dominators of node $n$ as $D(n) = OUT(n)$. These sets a
 Let the back edge be $(n,d)$. Then initialize a empty stack. Push $n$ into the stack. Initialize a vector with $d$ in it. Then until the stack is empty, pop the top element and push its predecessors into the stack. If the predecessor is not in the vector, add it to the vector. Continue until the stack is empty. The vector now contains the natural loop.
 
 \subsection*{Depth First Numbering of Nodes in a CFG}
+We start a $DFS(n)$ from initial node $n_0$ where $n$ is total number of nodes. We mark a node to $n$ when it is last visit to that node. Last visit means that all the children of that node are visited and now this node will not be visited again. Then we decrement $n$ and continue the process. This way we can number the nodes in a CFG.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Images/dfs1.png}
+    \caption{DFS Numbering of Nodes}
+    \label{fig:cfg}
+\end{figure}
+
+\newpage
+
+\subsection*{Reducibility}
+A flow graph $\mathcal{G}$ is reducible iff every back it can be partitioned into 2 disjoint sets of forward and back edges such that:
+
+\begin{itemize}
+    \item Forward edges form a DAG in which every node is reachable from the initial node.
+    \item All the retreating edges are back edges.
+    \item In an irreducible flow graph, some retreating edges will not be back edges, hence graph of forward edges will contain a cycle.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/reducible.png}
+    \includegraphics[width=0.4\textwidth]{Images/irreducible.png}
+    \caption{Reducible and Irreducible CFG}
+    \label{fig:cfg}
+\end{figure}
+
+\subsection*{Inner Loops}
+Unless two loops have same header $n \longrightarrow d$ (here d is header), they are either disjoint or one is nested inside the other. If natural loop set of one header is subset of the other then there is nesting. Similarly two loops are disjoint if their natural loop sets are disjoint and two loops are identical if their natural loop sets are identical.
+
+If two loops share a header, neither of these may hold and in such a case loops are combined and transformed.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/transform.png}
+    \caption{Transformation in case of shared header}
+    \label{fig:cfg}
+\end{figure}]
+
+\newpage
+
+\subsection*{Pre Header}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/preheader.png}
+    \caption{Pre Header}
+    \label{fig:cfg}
+\end{figure}
+
+\subsection*{Depth of a CFG and Convergence of DFA Problem}
+To be continued.
 
 \end{document}

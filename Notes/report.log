@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.1.30)  30 JAN 2025 05:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.1.30)  6 FEB 2025 01:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/ayushraina/Desktop/CompilerDesign/Report/report.tex
-(/home/ayushraina/Desktop/CompilerDesign/Report/report.tex
+**/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex
+(/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -148,7 +148,17 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count276
 \l__pdf_internal_box=\box53
-) (./report.aux)
+) (./report.aux
+
+LaTeX Warning: Label `fig:cfg' multiply defined.
+
+
+LaTeX Warning: Label `fig:cfg' multiply defined.
+
+
+LaTeX Warning: Label `fig:cfg' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
@@ -223,27 +233,65 @@ Overfull \hbox (9.72144pt too wide) in paragraph at lines 19--20
 \OT1/cmr/m/n/10 Helps to un-der-stand struc-ture of Con-trol Flow Graph (CFG), To de-tect loops in the CFG, Dom-i-na-tor In-for-ma-tion,Dominator
  []
 
+<Images/dfs1.png, id=1, 562.1pt x 569.12625pt>
+File: Images/dfs1.png Graphic file (type png)
+<use Images/dfs1.png>
+Package pdftex.def Info: Images/dfs1.png  used on input line 55.
+(pdftex.def)             Requested size: 262.61894pt x 265.90018pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] (./report.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+<Images/reducible.png, id=20, 795.97375pt x 662.475pt>
+File: Images/reducible.png Graphic file (type png)
+<use Images/reducible.png>
+Package pdftex.def Info: Images/reducible.png  used on input line 73.
+(pdftex.def)             Requested size: 210.09193pt x 174.84744pt.
+<Images/irreducible.png, id=21, 769.87625pt x 256.96pt>
+File: Images/irreducible.png Graphic file (type png)
+<use Images/irreducible.png>
+Package pdftex.def Info: Images/irreducible.png  used on input line 74.
+(pdftex.def)             Requested size: 210.09193pt x 70.12117pt.
+<Images/transform.png, id=22, 506.89375pt x 348.30125pt>
+File: Images/transform.png Graphic file (type png)
+<use Images/transform.png>
+Package pdftex.def Info: Images/transform.png  used on input line 86.
+(pdftex.def)             Requested size: 210.09193pt x 144.35631pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2 <./Images/dfs1.png> <./Images/reducible.png> <./Images/irreducible.png>]
+<Images/preheader.png, id=29, 804.00375pt x 435.6275pt>
+File: Images/preheader.png Graphic file (type png)
+<use Images/preheader.png>
+Package pdftex.def Info: Images/preheader.png  used on input line 96.
+(pdftex.def)             Requested size: 210.09193pt x 113.83212pt.
+ [3 <./Images/transform.png> <./Images/preheader.png>] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 3090 strings out of 474222
- 46307 string characters out of 5748733
- 1932975 words of memory out of 5000000
- 25336 multiletter control sequences out of 15000+600000
+ 3128 strings out of 474222
+ 47288 string characters out of 5748733
+ 1933975 words of memory out of 5000000
+ 25374 multiletter control sequences out of 15000+600000
  563787 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,433b,200s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,436b,240s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on report.pdf (1 page, 131178 bytes).
+Output written on report.pdf (3 pages, 339981 bytes).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 86 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
