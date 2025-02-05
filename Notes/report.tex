@@ -101,4 +101,77 @@ If two loops share a header, neither of these may hold and in such a case loops 
 \subsection*{Depth of a CFG and Convergence of DFA Problem}
 To be continued.
 
+\newpage
+
+\subsection*{Intervals}
+
+Intervals have a header node which dominates all the other nodes in that interval.
+Given a flow graph $\mathcal{G}$ with initial node $n_0$.The interval with header $n$ denoted by $I(n)$ is the set defined as: \\ \\
+1. $n \in I(n)$. \\
+2. If $\exists \; m$ such that $Pred(m) \subset I(n)$ then $m \in I(n)$. \\
+3. Nothing else is in $I(n)$. \\ \\
+Constructing $I(n)$: \\
+1. Start with $I(n) = \{n\}$. \\
+2. While there exists a node $m$ such that $Pred(m) \subset I(n)$, do $I(n) = I(n) \cup \{m\}$.
+
+\subsection*{Paritioning a flow graph into disjoint intervals}
+1. Mark all the nodes as unvisited. \\
+2. Construct $I(n_0)$ and mark all the nodes in $I(n_0)$ as visited. \\
+3. while there is an unvisited node $m$ with atleast one predecessor $p$ which is selected, construct $I(m)$ and mark all the nodes in $I(m)$ as visited and repeat the process. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/reducible2.png}
+    \caption{Intervals}
+    \label{fig:Reducibility}
+\end{figure}
+
+In 1st step we got disjoint intervals. Now in the above figure we repeat same procedure further on the interval graph until we reach single node.
+
+\subsection*{Interval Graphs}
+1. Interval graph is denoted by $I(\mathcal{G})$. Intervals correspond to nodes and interval containing $n_0$ is the initial node of $I(\mathcal{G})$. \\
+2. If there is an edge from a node in $I(m)$ to the header of interval $I(n)$ then there is an edge from $I(m)$ to $I(n)$ in $I(\mathcal{G})$. \\
+3. We make intervals in interval graph until we reach a limit flow graph which cannot be reduced further. \\
+4. \textcolor{red}{A flow graph is reducible iff its limit flow graph is a single node.}
+
+\subsection*{Node Splitting (Extra)}
+If we reach limit flow graph which is not a single node, we can still proceed further if we split one or more nodes. \\ 
+1. If a node has $k$ predecessors then we may replace $n$ by $k$ nodes $n_1, n_2, \ldots, n_k$ such that $i^{th}$ predecessor of $n$ becomes predecessor of $n_i$ and all the successors of $n$ become successors of $n_i \forall i \in [1,k]$. \\
+2. After splitting the nodes, we continue reduction process and do node splitting wherever required to reach a single node limit flow graph, however success is not guaranteed. \\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/nodeSplit.png}
+    \caption{Node Splitting}
+    \label{fig:NodeSplitting}
+\end{figure}
+
+\subsection*{T1-T2 Transformations and Graph Reduction}
+\textbf{T1 Transformation: }If n is a node with a loop i.e $(n \rightarrow n)$ edge exists then delete that edge. \\
+\textbf{T2 Transformation: }If there is a node $n$, not the initial node with a unique predecessor $m$ then combine $n$ into $m$. \\
+
+By Applying T1,T2 transformations in any order we may reach limit flow graph and node splitting may be required wherever necessary in order to reach a single node limit flow graph.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/t1t2.png}
+    \caption{T1-T2 Transformations}
+    \label{fig:T1T2}
+\end{figure}
+
+One more example of a bigger CFG can be found in slides available on course webpage.
+
+\subsection*{Regions}
+A set of nodes $N$ that includes a header and it dominates all other nodes in $N$ is called region and all these edges between nodes in $N$ are in the region except (possibly) the edges that enter the header. \\
+All intervals are regions but all regions are not intervals. A region may have multiple exits but an interval has only one exit. As we reduce a flow graph G using $T1-T2$ transformations, at each step the node obtained is a region.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/region.png}
+    \caption{R,S,T,U,V are different regions marked}
+    \label{fig:Regions}
+\end{figure}
+
+\subsection*{End of Control Flow Analysis}
+
 \end{document}
