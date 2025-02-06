@@ -153,6 +153,16 @@ INPUT ./Images/bitvector.png
 INPUT ./Images/bitvector.png
 INPUT ./Images/bitvector.png
 INPUT ./Images/bitvector.png
+INPUT ./Images/udchain.png
+INPUT ./Images/udchain.png
+INPUT ./Images/udchain.png
+INPUT ./Images/udchain.png
+INPUT ./Images/udchain.png
+INPUT ./Images/udchain2.png
+INPUT ./Images/udchain2.png
+INPUT ./Images/udchain2.png
+INPUT ./Images/udchain2.png
+INPUT ./Images/udchain2.png
 INPUT report.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb

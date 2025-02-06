@@ -239,6 +239,24 @@ GEN, KILL, IN, OUT are all represented as bit vectors with one bit for each defi
     \label{fig:BitVector}
 \end{figure}
 
-\subsection*{Use-Definition Chains (u-d chains)}
+\subsection*{Use-Definition Chains (u-d chains)}\
+Convenient way to store reaching definitions once they are computed. A u-d chain is a \textbf{list of a use of a variable} and all the definitions that reach that use. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/udchain.png}
+    \caption{Use-Definition Chains}
+    \label{fig:udChain}
+\end{figure}
+
+\subsection*{Construction of ud chains}
+We need to consider 3 cases while constructing use-def chains which are as follows:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Images/udchain2.png}
+    \caption{Construction of ud chains}
+    \label{fig:udChain}
+\end{figure}
 
 \end{document}

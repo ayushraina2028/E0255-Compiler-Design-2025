@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.1.30)  6 FEB 2025 12:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.1.30)  6 FEB 2025 12:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -157,6 +157,9 @@ LaTeX Warning: Label `fig:cfg' multiply defined.
 
 
 LaTeX Warning: Label `fig:cfg' multiply defined.
+
+
+LaTeX Warning: Label `fig:udChain' multiply defined.
 
 )
 \openout1 = `report.aux'.
@@ -379,7 +382,23 @@ File: Images/bitVector.png Graphic file (type png)
 <use Images/bitVector.png>
 Package pdftex.def Info: Images/bitVector.png  used on input line 237.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
-[8 <./Images/reaching1.png> <./Images/reaching2.png> <./Images/reaching3.png> <./Images/bitvector.png>] [9] (./report.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--244
+
+ []
+
+[8 <./Images/reaching1.png> <./Images/reaching2.png> <./Images/reaching3.png> <./Images/bitvector.png>]
+<Images/udchain.png, id=67, 907.39pt x 684.5575pt>
+File: Images/udchain.png Graphic file (type png)
+<use Images/udchain.png>
+Package pdftex.def Info: Images/udchain.png  used on input line 247.
+(pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
+<Images/udchain2.png, id=68, 940.51375pt x 494.84875pt>
+File: Images/udchain2.png Graphic file (type png)
+<use Images/udchain2.png>
+Package pdftex.def Info: Images/udchain2.png  used on input line 257.
+(pdftex.def)             Requested size: 315.14594pt x 165.815pt.
+ [9 <./Images/udchain.png> <./Images/udchain2.png>] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -390,18 +409,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3190 strings out of 474222
- 48843 string characters out of 5748733
+ 3205 strings out of 474222
+ 49211 string characters out of 5748733
  1933975 words of memory out of 5000000
- 25436 multiletter control sequences out of 15000+600000
+ 25451 multiletter control sequences out of 15000+600000
  563787 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,6n,65p,436b,240s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on report.pdf (9 pages, 1273995 bytes).
+Output written on report.pdf (9 pages, 1401271 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
+ 126 PDF objects out of 1000 (max. 8388607)
  60 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
 
