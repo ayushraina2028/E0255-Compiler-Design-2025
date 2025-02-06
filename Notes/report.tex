@@ -86,7 +86,7 @@ If two loops share a header, neither of these may hold and in such a case loops 
     \includegraphics[width=0.4\textwidth]{Images/transform.png}
     \caption{Transformation in case of shared header}
     \label{fig:cfg}
-\end{figure}]
+\end{figure}
 
 \newpage
 
@@ -173,5 +173,63 @@ All intervals are regions but all regions are not intervals. A region may have m
 \end{figure}
 
 \subsection*{End of Control Flow Analysis}
+
+\newpage
+
+\section*{Data Flow Analysis}
+These are the techniques that derive information about flow of data along execution paths. \\
+An execution path from path $p_1$ to $p_n$ is sequence of points such that for each $i \in [1,n-1]$ either $p_i$ is preceeding some statement $s$ and $p_{i+1}$ is immediately following the same statement $s$ or $p_i$ is end of some block and $p_{i+1}$ is start of successor block. \\
+In general there can be infinite number of paths from a program and there is no bound on length of a path. \\
+
+\subsection*{Uses of DFA}
+Common uses are program debugging and program optimizations. \\
+\textbf{Program debugging: } may include what are the definitions of variables reaching a particular point ? These are reaching definitions. \\
+\textbf{Program Optimization: } It includes optimizations like common subexpression elimination. \\
+
+\subsection*{Data Flow Analysis Schema}
+Let us first see some definitions: \\
+1. \textbf{Data flow value: } for a program point represents an abstraction of all possible program states that can be observed from that particular point in the program. The set of all possible data flow values is called Domain of the application under consideration. \\
+2. \textbf{IN(s) and OUT(s)}: represents the data flow values at beginning and end of each statement $s$. \\
+3. \textbf{Data Flow Problem:} is to find a solution to set of constraints on $IN(s)$ and $OUT(s)$ for all statements $s$. These constraints are of two types: constraints based on semantics of statements such as transfer functions and constraints based on control flow such as if-else conditions. \\
+4. \textbf{Safe Estimates: } A decision or estimate is safe if it never leads to a change in what is being computed in the program (after the change).  \\
+
+A DFA schema consists of: \\    
+1. Control Flow Graph (CFG) \\
+2. Direction of Data Flow (Forward or Backward) \\
+3. Set of Data Flow Values (Domain) \\
+4. Confluence Operator \\
+5. Transfer Functions for each block \\
+
+\subsection*{Reaching Definitions} 
+Purpose of reaching definitions is to perform optimizations by computing loop invariant. A definition $d$ reaches a point $p$ if there is a path from the point immediately following $d$ to $p$ such that $d$ is not killed on that path. We say a definition of a variable is killed if between 2 points along the path, there is re-assignment to the variable. \\
+
+The data flow equations(constraints) are as follows: Initialize $IN(B) = \phi$ for all blocks $B$. If some definitions reach $B_1$ (entry block) then $IN(B_1)$ is initialized with those definitions. Then we have: \\
+1. $IN(B) = \bigcup_{p \in pred(B)} OUT(p)$ \\
+2. $OUT(B) = GEN(B) \cup (IN(B) - KILL(B))$ \\
+
+This is a forward $DFA$ problem since $OUT(B)$ is computed in terms of $IN(B)$ and Confluence operator is $\cup$. $GEN(B)$ is the set of definitions which are visible immediately after the block $B$ and $KILL(B)$ is the union of  definitions in all basic blocks which are killed by individual definitions in $B$. Here is an example of reaching definitions:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/reaching1.png}
+    \includegraphics[width=0.4\textwidth]{Images/reaching2.png}
+    \includegraphics[width=0.4\textwidth]{Images/reaching3.png}
+    \caption{Reaching Definitions}
+    \label{fig:ReachingDefinitions}
+\end{figure}
+
+\newpage
+
+In Pass 1, we initialize $IN(B) = \phi$ for all blocks and compute $OUT(B)$ using $GEN$, $KILL$ and $IN$ values. Now we repeat the process until $IN$ and $OUT$ values stabilize which in this case takes 3 iterations. \\
+
+\subsection*{Iterative Algorithm for computing Reaching Definitions}
+1. for each block $B$ initialize $IN(B) = \phi$ and $OUT(B) = GEN(B)$. \\
+2. while there is a block $B$ such that $OUT(B)$ changes, do the following for each block $B$: \\
+\begin{itemize}
+    \item $IN(B) = \bigcup_{p \in pred(B)} OUT(p)$
+    \item $OUT(B) = GEN(B) \cup (IN(B) - KILL(B))$
+\end{itemize}
+
+GEN, KILL, IN, OUT are all represented as bit vectors with one bit for each definition in the flow graph. \\
 
 \end{document}
