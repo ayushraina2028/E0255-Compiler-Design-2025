@@ -230,6 +230,15 @@ In Pass 1, we initialize $IN(B) = \phi$ for all blocks and compute $OUT(B)$ usin
     \item $OUT(B) = GEN(B) \cup (IN(B) - KILL(B))$
 \end{itemize}
 
-GEN, KILL, IN, OUT are all represented as bit vectors with one bit for each definition in the flow graph. \\
+GEN, KILL, IN, OUT are all represented as bit vectors with one bit for each definition in the flow graph which is shown in following figure. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/bitVector.png}
+    \caption{Bit Vector Representation}
+    \label{fig:BitVector}
+\end{figure}
+
+\subsection*{Use-Definition Chains (u-d chains)}
 
 \end{document}
