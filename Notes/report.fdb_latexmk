@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1738958624.41543 "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" "report.pdf" "report" 1738958625.30975 0
+["pdflatex"] 1738961807.11646 "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" "report.pdf" "report" 1738961808.11287 0
   "/etc/texmf/web2c/texmf.cnf" 1738862817.36871 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" 1738958624.2467 16290 d122c7aa337d56e8aef4449730c550fa ""
+  "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" 1738961806.94335 18072 f4c97f4d7da45c834c39f29effdf718b ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -23,6 +23,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1248133631 36741 fa121aac0049305630cf160b86157ee4 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
@@ -65,8 +66,10 @@
   "Images/dfs1.png" 1738857313.02058 61996 c6b99c51b52c2531315bf5315325a230 ""
   "Images/egen.png" 1738958235.37461 23589 9eb14f1a3aad9450dc0b6a22d717e6a9 ""
   "Images/ekill.png" 1738958246.54011 22920 c9458bb2d8d119510402572b1962379f ""
+  "Images/example.png" 1738961493.42362 106669 901190a0f539a4d1eee3cb923c7d25e4 ""
   "Images/irreducible.png" 1738857312.99458 44138 3f80d159c5d09a600b86c22b4f4a3174 ""
   "Images/nodeSplit.png" 1738857313.00758 134832 3d73284179f87bdc9b039397662141c3 ""
+  "Images/phi.png" 1738961649.99425 127450 b780d7a57968365fccb370ee7fda6e6a ""
   "Images/preheader.png" 1738857313.01258 38655 ffe5c2b2c2a9286409e035a88b7bbb05 ""
   "Images/reaching1.png" 1738857312.99758 156393 6ffc5038e8c7758d911a46f0f6fa5c02 ""
   "Images/reaching2.png" 1738857312.99958 176858 c85838d3067ac99696021c1e097dc8b1 ""
@@ -78,8 +81,8 @@
   "Images/transform.png" 1738857313.01358 36805 bd26f0a32dd55fedfe7ba118c88c4ed0 ""
   "Images/udchain.png" 1738857313.00258 119163 014ef02f4a4bfff9d45922691dff820e ""
   "Images/udchain2.png" 1738857313.00858 72970 1e9e79aaae61eee2d6a0be95cf570cb5 ""
-  "report.aux" 1738958625.27974 2359 c982d6a77084f529c2b681fd08f6f985 "pdflatex"
-  "report.tex" 1738958624.2467 16290 d122c7aa337d56e8aef4449730c550fa ""
+  "report.aux" 1738961808.08143 2719 cf7e6919939cadba1239e0ef5db4f490 "pdflatex"
+  "report.tex" 1738961806.94335 18072 f4c97f4d7da45c834c39f29effdf718b ""
   (generated)
   "report.aux"
   "report.log"

@@ -294,5 +294,47 @@ $IN(B_1)$ is always $\phi$, U is the set of all expressions
 
 \end{figure}
 
-In the left figure we did $A = A - \{ \text{all expressions involving x} \}$ because of re assignment to $x$. In the right figure we did $A = A - \{y+z\}$ because in this case $A$ is set of killed expressions and $\{y+z\}$ is generated and due to re assignment to $x$, all expressions involving $x$ are added to $A$. \\ 
+In the left figure we did $A = A - \{ \text{all expressions involving x} \}$ because of re assignment to $x$. In the right figure we did $A = A - \{y+z\}$ because in this case $A$ is set of killed expressions and $\{y+z\}$ is generated and due to re assignment to $x$, all expressions involving $x$ are added to $A$. Also for the statements of the form $x=a$, the step 1 of both algorithms shown does not apply. \\
+
+\subsection*{Iterative Algorithm for Computing Available Expressions}
+Algorithm 1: \\
+1. for each block $B \neq B_1$ do $OUT(B) = U - e\_kill(B)$ \\
+2. while there is a block $B$ such that $OUT(B)$ changes, do the following for each block $B$: \\
+
+\begin{itemize}
+    \item $IN(B) = \bigcap_{p \in pred(B)} OUT(p)$
+    \item $OUT(B) = \text{e\_gen}(B) \cup (IN(B) - \text{e\_kill}(B))$
+\end{itemize}
+
+Algorithm2: \\
+1. for each block $B \neq B_1$ do $IN(B) = U$ \\
+2. while there is a block $B$ such that $OUT(B)$ changes, do the following for each block $B$: \\
+
+\begin{itemize}
+    \item $OUT(B) = \text{e\_gen}(B) \cup (IN(B) - \text{e\_kill}(B))$
+    \item $IN(B) = \bigcap_{p \in pred(B)} OUT(p)$
+\end{itemize}
+
+In Algorithm 2, we have initialized $IN(B) = U$ first, and the only change in while loop is that $OUT(B)$ will be computed first and then $IN(B)$ will be computed. \\
+
+\subsection*{Why not $IN(B) = \phi$ ?}
+This initialization can be restrictive. We will get a valid solution, but it is possible that it may not be the largest possible solution. We require largest possible solution so that we can eliminate as many common subexpressions as possible. \\
+
+\newpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/phi.png}
+    \caption{Why not $IN(B) = \phi$ ?}
+    \label{fig:AvailableExpressions}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/example.png}
+    \caption{Available Expressions}
+    \label{fig:AvailableExpressions}
+\end{figure}
+
+In above figure an example is given in which there is a available expression but it is not computed because of initialization with $\phi$. \\
+
 \end{document}
