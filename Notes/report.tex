@@ -10,7 +10,7 @@
 \author{Ayush Raina}
 \date{\today}
 
-\begin{document}
+\begin{document} 
 
 \maketitle
 
@@ -200,7 +200,7 @@ A DFA schema consists of: \\
 4. Confluence Operator \\
 5. Transfer Functions for each block \\
 
-\subsection*{Reaching Definitions} 
+\section*{Reaching Definitions} 
 Purpose of reaching definitions is to perform optimizations by computing loop invariant. A definition $d$ reaches a point $p$ if there is a path from the point immediately following $d$ to $p$ such that $d$ is not killed on that path. We say a definition of a variable is killed if between 2 points along the path, there is re-assignment to the variable. \\
 
 The data flow equations(constraints) are as follows: Initialize $IN(B) = \phi$ for all blocks $B$. If some definitions reach $B_1$ (entry block) then $IN(B_1)$ is initialized with those definitions. Then we have: \\
@@ -259,4 +259,40 @@ We need to consider 3 cases while constructing use-def chains which are as follo
     \label{fig:udChain}
 \end{figure}
 
+\section*{Available Expression Computation}
+This computation is necessary to handle \textcolor{red}{common subexpression elimination} optimization. This is again a forward flow problem with $\cap$ as Confluence operator. \\
+An Expression $E_x$ is said to be available at a point $p$ if every path (may contain cycle) from initial node which reaches $p$ evaluates $E_x$ somewhere along the path before reaching $p$. There can be multiple evaluations of $E_x$ but after last such evaluation there are no assignments to any of the variables in $E_x$. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Images/available1.png}
+    \caption{Available Expressions}
+    \label{fig:AvailableExpressions}
+\end{figure}
+
+In the figure above we can see that if we take path $B_2$ right then first evaluation to $4*i$ is in $B_1$ and it is available at $B_2$. If we take path $B_2$ left then first evaluation to $4*i$ then there is reassigment to $i$ and $4*i$ is again computed, hence it is available at $B_2$ in this case as well. In this case last evaluation of the expression is in $B_2$ and after the last evaluation there was no further re assignment to $i$.\\
+
+A block kills $E_x$ if it assigns to any of the variables in $E_x$. For example consider $E(x,y) = x+y$. A block kills $E(x,y)$ if it assigns to $x$ or $y$. A block generates $E_x$ if it computes $E_x$ and does not kill it. \\
+
+\subsection*{Data Flow Equations for Available Expressions}
+The data flow equations are as follows: \\
+1. $IN(B) = \bigcap_{p \in pred(B)} OUT(p)$ where $B$ is not the entry block. \\
+2. $OUT(B) = \text{e\_gen} (B) \cup (IN(B) - \text{e\_kill}(B))$ \\
+3. $IN(B_1) = \phi$ where $B_1$ is the entry block. \\
+4. $IN(B) = U$, for $B \neq B_1$ \textcolor{red}{(Initialization)} \\
+
+$IN(B_1)$ is always $\phi$, U is the set of all expressions 
+
+\subsection*{Computing e\_gen and e\_kill}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/egen.png}
+    \includegraphics[width=0.4\textwidth]{Images/ekill.png}
+    \caption{Computing e\_gen and e\_kill}
+    \label{fig:AvailableExpressions}
+
+\end{figure}
+
+In the left figure we did $A = A - \{ \text{all expressions involving x} \}$ because of re assignment to $x$. In the right figure we did $A = A - \{y+z\}$ because in this case $A$ is set of killed expressions and $\{y+z\}$ is generated and due to re assignment to $x$, all expressions involving $x$ are added to $A$. \\ 
 \end{document}
