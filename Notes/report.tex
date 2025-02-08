@@ -425,4 +425,37 @@ In the left figure from $n_1$ if we take path along $n_4$ then expression is com
     \caption{Summary of Data Flow Analysis}
     \label{fig:AnticipatedExpressions}
 \end{figure}
+
+\newpage
+
+\section*{Machine Independent Optimizations}
+
+\subsection*{Elimination of global common subexpressions}
+To do this, we require available expression data flow information which we have already discussed. \\
+Algorithm: \\
+1. For every statement $s: x = y+z$ such that $(y+z)$ is already available at beginning of the block containing $s$, and neither $y$ nor $z$ is assigned in that block prior to $s$, do the following:
+\begin{itemize}
+    \item Search backwards from block containing $s$ to find the first block where $(y+z)$ is computed.
+    \item Create a new variable $u$ and replace each statement $w = y+z$ in these blocks by $u = y+z, w = u$.
+    \item Set $x = u$ in statement $s$.
+    \item Repeat steps 1-2 for every predecessor block of block containing $s$.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Images/GCSE.png}
+    \caption{Global Common Subexpression Elimination}
+    \label{fig:GlobalCSE}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{Images/GCSE2.png}
+    \includegraphics[width=0.45\textwidth]{Images/GCSE3.png}
+    \caption{Global Common Subexpression Elimination}
+    \label{fig:GlobalCSE}
+\end{figure}
+
+In this case we had only one predecessor block where the expression was computed, hence we did not created a new variable and instead used the same variable to eliminate the common subexpression. \\
+
 \end{document}

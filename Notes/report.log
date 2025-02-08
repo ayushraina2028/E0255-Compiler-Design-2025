@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.2.6)  8 FEB 2025 22:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.2.6)  9 FEB 2025 00:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -178,6 +178,9 @@ LaTeX Warning: Label `fig:AnticipatedExpressions' multiply defined.
 
 
 LaTeX Warning: Label `fig:AnticipatedExpressions' multiply defined.
+
+
+LaTeX Warning: Label `fig:GlobalCSE' multiply defined.
 
 )
 \openout1 = `report.aux'.
@@ -592,7 +595,28 @@ File: Images/summary4.png Graphic file (type png)
 <use Images/summary4.png>
 Package pdftex.def Info: Images/summary4.png  used on input line 424.
 (pdftex.def)             Requested size: 236.35544pt x 144.10046pt.
- [14 <./Images/anticipated.png> <./Images/summary1.png> <./Images/summary2.png> <./Images/summary3.png> <./Images/summary4.png>] (./report.aux)
+ [14 <./Images/anticipated.png> <./Images/summary1.png> <./Images/summary2.png> <./Images/summary3.png> <./Images/summary4.png>]
+<Images/GCSE.png, id=119, 765.86125pt x 245.91875pt>
+File: Images/GCSE.png Graphic file (type png)
+<use Images/GCSE.png>
+Package pdftex.def Info: Images/GCSE.png  used on input line 446.
+(pdftex.def)             Requested size: 315.14594pt x 101.19507pt.
+<Images/GCSE2.png, id=120, 778.91pt x 606.265pt>
+File: Images/GCSE2.png Graphic file (type png)
+<use Images/GCSE2.png>
+Package pdftex.def Info: Images/GCSE2.png  used on input line 453.
+(pdftex.def)             Requested size: 236.35544pt x 183.96234pt.
+<Images/GCSE3.png, id=121, 778.91pt x 606.265pt>
+File: Images/GCSE3.png Graphic file (type png)
+<use Images/GCSE3.png>
+Package pdftex.def Info: Images/GCSE3.png  used on input line 454.
+(pdftex.def)             Requested size: 236.35544pt x 183.96234pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
+
+ []
+
+[15 <./Images/GCSE.png> <./Images/GCSE2.png> <./Images/GCSE3.png>] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -603,18 +627,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3308 strings out of 474222
- 51764 string characters out of 5748734
+ 3330 strings out of 474222
+ 52252 string characters out of 5748734
  1935975 words of memory out of 5000000
- 25554 multiletter control sequences out of 15000+600000
+ 25576 multiletter control sequences out of 15000+600000
  563787 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,6n,65p,521b,240s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on report.pdf (14 pages, 2156628 bytes).
+Output written on report.pdf (15 pages, 2310419 bytes).
 PDF statistics:
- 175 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 184 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 146 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 161 words of extra memory for PDF output out of 10000 (max. 10000000)
 
