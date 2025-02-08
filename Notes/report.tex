@@ -382,9 +382,47 @@ Data Flow equations remain same as live variable analysis but the domain is $(x,
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Images/duchain2.png}
+    \includegraphics[width=0.7\textwidth]{Images/duchain2.png}
     \caption{Construction of Definition Use Chains}
     \label{fig:DefUse}
 \end{figure}
 
+\section*{Anticipated Expressions or Very Busy Expressions}
+An expression $(B \; op \; C)$ is very busy or anticipated at a point $p$, if along every path from $p$, we come to a computation of $(B \; op \; C)$ before any computation of $B$ or $C$. This is useful in \textcolor{red}{code hoisting} which does not reduce time but reduces space.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Images/hoisting.png}
+    \caption{Code Hoising}
+    \label{fig:AnticipatedExpressions}
+\end{figure}
+
+In this case Domain is sets of expressions and this is also a backward data flow analysis problem with confluence operator as $\cap$. \\
+
+Notations: \\
+1. $V\_USE(n)$ is the set of expressions $(B \; op \; C)$ computed in $n$ with no prior assignment to $B$ or $C$ in $n$. \\
+2. $V\_DEF(n)$ is the set of expressions $(B \; op \; C)$ in $U$ (universal set of expressions) for which either $B$ or $C$ is defined in $n$ prior to the computation of $(B \; op \; C)$. \\
+
+\subsection*{Data Flow Equations}
+1. $IN(n) = U$ for all $n$ (Initialization) \\
+2. $OUT(n) = \bigcap_{s \in succ(n)} IN(s)$ \\
+3. $IN(n) = V\_USE(n) \cup (OUT(n) - V\_DEF(n))$ \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Images/anticipated.png}
+    \caption{Anticipated Expressions}
+    \label{fig:AnticipatedExpressions}
+\end{figure}
+In the left figure from $n_1$ if we take path along $n_4$ then expression is computed in $n_4$, but if we consider path along $n_5$ then we will consider the computation of expression which is already done in $n_1$ because in definition it was mentioned that all paths from $p$. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{Images/summary1.png}
+    \includegraphics[width=0.45\textwidth]{Images/summary2.png}
+    \includegraphics[width=0.45\textwidth]{Images/summary3.png}
+    \includegraphics[width=0.45\textwidth]{Images/summary4.png}
+    \caption{Summary of Data Flow Analysis}
+    \label{fig:AnticipatedExpressions}
+\end{figure}
 \end{document}
