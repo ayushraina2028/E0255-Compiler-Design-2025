@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1739028643.49731 "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" "report.pdf" "report" 1739028644.54982 0
+["pdflatex"] 1739032129.26482 "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" "report.pdf" "report" 1739032130.42259 0
   "/etc/texmf/web2c/texmf.cnf" 1738862817.36871 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" 1739028642.28982 19471 3c4344fa9f67c0e8247cc6cc3cee53fe ""
+  "/home/ayushraina/Desktop/CompilerDesign/Notes/report.tex" 1739032129.08529 21230 b2612ba4c2d8724a32318dbb2ebe4e00 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -64,6 +64,8 @@
   "Images/available1.png" 1738956144.48036 44677 320bbd9b1da79db566609be3fb7c6482 ""
   "Images/bitvector.png" 1738857312.99258 117742 151a2af70c35efa8b233d352273b4502 ""
   "Images/dfs1.png" 1738857313.02058 61996 c6b99c51b52c2531315bf5315325a230 ""
+  "Images/duchain.png" 1739031273.33105 160645 edef4a4221e028fed7364121e486e783 ""
+  "Images/duchain2.png" 1739032091.95764 122627 c35e4bed5b8b8eb05d9516fc3ae6d856 ""
   "Images/egen.png" 1738958235.37461 23589 9eb14f1a3aad9450dc0b6a22d717e6a9 ""
   "Images/ekill.png" 1738958246.54011 22920 c9458bb2d8d119510402572b1962379f ""
   "Images/example.png" 1738961493.42362 106669 901190a0f539a4d1eee3cb923c7d25e4 ""
@@ -82,8 +84,8 @@
   "Images/transform.png" 1738857313.01358 36805 bd26f0a32dd55fedfe7ba118c88c4ed0 ""
   "Images/udchain.png" 1738857313.00258 119163 014ef02f4a4bfff9d45922691dff820e ""
   "Images/udchain2.png" 1738857313.00858 72970 1e9e79aaae61eee2d6a0be95cf570cb5 ""
-  "report.aux" 1739028644.51292 2924 dc17fac2d8029358311c02c8cc8316ce "pdflatex"
-  "report.tex" 1739028642.28982 19471 3c4344fa9f67c0e8247cc6cc3cee53fe ""
+  "report.aux" 1739032130.38935 3268 11e8c0b2a4f6f062b7920789db7ed26d "pdflatex"
+  "report.tex" 1739032129.08529 21230 b2612ba4c2d8724a32318dbb2ebe4e00 ""
   (generated)
   "report.aux"
   "report.log"

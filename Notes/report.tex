@@ -350,11 +350,41 @@ Inittialize $IN(B) = \phi$ for all blocks $B$. Then we have: \\
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Images/live.png}
+    \includegraphics[width=0.3\textwidth]{Images/live.png}
     \caption{Final Live Variable Analysis after stabilization}
     \label{fig:LiveVariableAnalysis}
 \end{figure}
 
 Above figure shows the live variable analysis for a simple flow graph. Consider Block $B_2$, we can see that $i,j$ are used before assignment, hence they are in $USE(B_2)$. Similarly in $B_4$ - $a,j$ both are used before assignment and $i$ is assigned before use, hence $a,j \in USE(B_4)$ and $i \in DEF(B_4)$. \\
+
+\subsection*{Definition Use Chains}
+In this for each defintion we wish to attach the statement numbers of the uses of that defintion. This information is represented as sets of $(x,s)$ pairs where $x$ is the variable used in the statement $s$. In live variable analysis, we need information on whether a variable is used later but in $(x,s)$ computation we also need the statement number of the uses.
+
+\subsection*{Data Flow Analysis for $(x,s)$ pairs}
+Domain is $(x,s)$ pairs and this is again a backward data flow problem with confluence operator as $\cup$. \\ 
+
+Here are some notations: \\
+1. $USE(B)$ is the set of $(x,s)$ pairs $s$ is a statement in $B$ which uses $x$ before any reassignment to $x$ in $B$.\\ 
+2. $DEF(B)$ is the set of $(x,s)$ pairs $s$ where is a statement number which uses $x$, $s$ is not in $B$ but $B$ contains a defintion of $x$ . \\ 
+3. $IN(B)$ is the set of $(x,s)$ pairs such that statement $s$ uses $x$ and there is no re assignment to $x$ from beginning of $B$ to $s$. \\ 
+4. $OUT(B)$ is the set of $(x,s)$ pairs such that statement $s$ uses $x$ and there is no re assignment to $x$ from ending of $B$ to $s$. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Images/duchain.png}
+    \caption{Definition Use Chains}
+    \label{fig:DefUse}
+\end{figure}
+
+Data Flow equations remain same as live variable analysis but the domain is $(x,s)$ pairs. Once $IN(B)$ and $OUT(B)$ are computed for $(x,s)$ pairs, we can construct definition use chains. as follows: \\
+
+\subsection*{Construction of Definition Use Chains}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Images/duchain2.png}
+    \caption{Construction of Definition Use Chains}
+    \label{fig:DefUse}
+\end{figure}
 
 \end{document}
