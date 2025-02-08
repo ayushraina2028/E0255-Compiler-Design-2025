@@ -337,4 +337,24 @@ This initialization can be restrictive. We will get a valid solution, but it is 
 
 In above figure an example is given in which there is a available expression but it is not computed because of initialization with $\phi$. \\
 
+\section*{Live Variable Analysis}
+We say a variable $x$ is live at a point $p$, if the value of $x$ at $p$ could be used at some path in the flow graph starting at $p$, otherwise $x$ is dead at $p$. In this case the domain of the data flow values is sets of variables. This is backward data flow problem, with confluence operator as $\cup$. \\
+
+\subsection*{Notations}
+$IN(B)$ is the set of variables live at the beginning of block $B$ and $OUT(B)$ is the set of variables live at the end of block $B$. DEF(B) is the set of variables which are assigned in B prior to being used where as $USE(B)$ is the set of variables whose values may be used prior to definition of the variable. \\
+
+\subsection*{Data flow equations}
+Inittialize $IN(B) = \phi$ for all blocks $B$. Then we have: \\
+1. $OUT(B) = \bigcup_{s \in succ(B)} IN(s)$ \\
+2. $IN(B) = USE(B) \cup (OUT(B) - DEF(B))$ \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Images/live.png}
+    \caption{Final Live Variable Analysis after stabilization}
+    \label{fig:LiveVariableAnalysis}
+\end{figure}
+
+Above figure shows the live variable analysis for a simple flow graph. Consider Block $B_2$, we can see that $i,j$ are used before assignment, hence they are in $USE(B_2)$. Similarly in $B_4$ - $a,j$ both are used before assignment and $i$ is assigned before use, hence $a,j \in USE(B_4)$ and $i \in DEF(B_4)$. \\
+
 \end{document}
