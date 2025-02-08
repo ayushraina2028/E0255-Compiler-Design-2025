@@ -1,7 +1,8 @@
 \documentclass{article}
 
 \usepackage[utf8]{inputenc}  % For encoding support
-\usepackage{amsmath}         % For mathematical formatting
+\usepackage{amsmath}
+\usepackage{amssymb}        % For mathematical formatting
 \usepackage{graphicx}        % For including images
 \usepackage{xcolor}
 \usepackage[a4paper, left=0.5in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}  % Adjust margins here
@@ -458,4 +459,43 @@ Algorithm: \\
 
 In this case we had only one predecessor block where the expression was computed, hence we did not created a new variable and instead used the same variable to eliminate the common subexpression. \\
 
+\subsection*{Copy Propagation}
+In this optimization we eliminate copy statements of the form $s: x = y$ by substituting $y$ for $x$ in all uses of x reached by this copy. There are few conditions to be checked for this optimization: \\
+1. $u-d$ chain of use u of x must consist of $s$ only. Then $s$ is the only definition of $x$ reaching $u$. If it is not the case then copy propagation should not be done. \\
+2. On every path from $s$ to $u$, which includes paths that go through $u$ several times but not through $s$ again, there must be no reassignment to $y$. This ensures copy is valid. \\
+
+A simple example is shown in the figure on next page. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Images/CP.jpeg}
+    \caption{Copy Propagation, typo: must not pass through block containing $s$ for second time}
+    \label{fig:CopyPropagation}
+\end{figure}
+
+\newpage
+
+The second condition described above is checked by information obtained by a new data flow analysis problem which is defined as follows: \\
+
+Let us first define notations: \\
+1. \textbf{c\_gen(B)} is the set of all copy statements, $s: x = y$ in block $B$ such that there are no subsequent reassignments to either $x$ or $y$ in $B$ after $s$. \\
+2. \textbf{c\_kill(B)} is the set of all copy statements, $s: x = y$, $s \notin B$ but either $x$ or $y$ is re-assigned in $B$. \\
+3. Let $\mathcal{U}$ be the universal set of all copy statements in the program. \\
+4. \textbf{c\_in(B)} is the set of copy statements, $s:x = y$ reaching the beginning of block $B$ such that there are no assignments to either $x$ or $y$ following the last occurence of $s: x = y$ on the path. \\
+5. \textbf{c\_out(B)} is the set of copy statements $s:x = y$ reaching the end of block $B$ such that there are no assignments to either $x$ or $y$ following the last occurence of $s: x = y$ on the path. There should not be any assignemnt in the block also.\\
+
+\subsection*{Data Flow Equations for Copy Propagation}
+1. $c\_in(B) = \bigcap_{p \in pred(B)} c\_out(p)$, where B is not initial block. \\
+2. $c\_out(B) = c\_gen(B) \cup (c\_in(B) - c\_kill(B))$ \\
+3. Initialization1 - $c\_in(B_1) = \phi$, where $B_1$ is the initial block. \\
+4. Initialization2 - $c\_in(B) = \mathcal{U} - c\_kill(B)$, where $B \neq B_1$. \\ 
+
+\subsection*{Copy Propagation Algorithm}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/CP2.png}
+    \caption{Copy Propagation Algorithm}
+    \label{fig:CopyPropagation}
+\end{figure}
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.2.6)  9 FEB 2025 00:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.2.6)  9 FEB 2025 01:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -91,7 +91,16 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
@@ -182,23 +191,26 @@ LaTeX Warning: Label `fig:AnticipatedExpressions' multiply defined.
 
 LaTeX Warning: Label `fig:GlobalCSE' multiply defined.
 
+
+LaTeX Warning: Label `fig:CopyPropagation' multiply defined.
+
 )
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count277
@@ -252,15 +264,22 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-
-Overfull \hbox (9.72144pt too wide) in paragraph at lines 19--20
+LaTeX Font Info:    Trying to load font information for U+msa on input line 16.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Overfull \hbox (9.72144pt too wide) in paragraph at lines 20--21
 \OT1/cmr/m/n/10 Helps to un-der-stand struc-ture of Con-trol Flow Graph (CFG), To de-tect loops in the CFG, Dom-i-na-tor In-for-ma-tion,Dominator
  []
 
 <Images/dfs1.png, id=1, 562.1pt x 569.12625pt>
 File: Images/dfs1.png Graphic file (type png)
 <use Images/dfs1.png>
-Package pdftex.def Info: Images/dfs1.png  used on input line 55.
+Package pdftex.def Info: Images/dfs1.png  used on input line 56.
 (pdftex.def)             Requested size: 262.61894pt x 265.90018pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -271,17 +290,17 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Images/reducible.png, id=20, 795.97375pt x 662.475pt>
 File: Images/reducible.png Graphic file (type png)
 <use Images/reducible.png>
-Package pdftex.def Info: Images/reducible.png  used on input line 73.
+Package pdftex.def Info: Images/reducible.png  used on input line 74.
 (pdftex.def)             Requested size: 210.09193pt x 174.84744pt.
 <Images/irreducible.png, id=21, 769.87625pt x 256.96pt>
 File: Images/irreducible.png Graphic file (type png)
 <use Images/irreducible.png>
-Package pdftex.def Info: Images/irreducible.png  used on input line 74.
+Package pdftex.def Info: Images/irreducible.png  used on input line 75.
 (pdftex.def)             Requested size: 210.09193pt x 70.12117pt.
 <Images/transform.png, id=22, 506.89375pt x 348.30125pt>
 File: Images/transform.png Graphic file (type png)
 <use Images/transform.png>
-Package pdftex.def Info: Images/transform.png  used on input line 86.
+Package pdftex.def Info: Images/transform.png  used on input line 87.
 (pdftex.def)             Requested size: 210.09193pt x 144.35631pt.
 
 
@@ -291,35 +310,35 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Images/preheader.png, id=29, 804.00375pt x 435.6275pt>
 File: Images/preheader.png Graphic file (type png)
 <use Images/preheader.png>
-Package pdftex.def Info: Images/preheader.png  used on input line 96.
+Package pdftex.def Info: Images/preheader.png  used on input line 97.
 (pdftex.def)             Requested size: 210.09193pt x 113.83212pt.
  [3 <./Images/transform.png> <./Images/preheader.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 108--116
+Underfull \hbox (badness 10000) in paragraph at lines 109--117
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 108--116
+Underfull \hbox (badness 10000) in paragraph at lines 109--117
 
  []
 
 <Images/reducible2.png, id=35, 1003.75pt x 752.8125pt>
 File: Images/reducible2.png Graphic file (type png)
 <use Images/reducible2.png>
-Package pdftex.def Info: Images/reducible2.png  used on input line 124.
+Package pdftex.def Info: Images/reducible2.png  used on input line 125.
 (pdftex.def)             Requested size: 367.6649pt x 275.75641pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--141
+Underfull \hbox (badness 10000) in paragraph at lines 139--142
 
  []
 
 <Images/nodeSplit.png, id=36, 1079.03125pt x 745.78625pt>
 File: Images/nodeSplit.png Graphic file (type png)
 <use Images/nodeSplit.png>
-Package pdftex.def Info: Images/nodeSplit.png  used on input line 144.
+Package pdftex.def Info: Images/nodeSplit.png  used on input line 145.
 (pdftex.def)             Requested size: 367.6649pt x 254.12158pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--153
 
  []
 
@@ -327,84 +346,84 @@ Underfull \hbox (badness 10000) in paragraph at lines 150--152
 <Images/t1t2.png, id=41, 907.39pt x 684.5575pt>
 File: Images/t1t2.png Graphic file (type png)
 <use Images/t1t2.png>
-Package pdftex.def Info: Images/t1t2.png  used on input line 157.
+Package pdftex.def Info: Images/t1t2.png  used on input line 158.
 (pdftex.def)             Requested size: 367.6649pt x 277.36961pt.
  [5 <./Images/nodeSplit.png> <./Images/t1t2.png>]
 <Images/region.png, id=47, 907.39pt x 684.5575pt>
 File: Images/region.png Graphic file (type png)
 <use Images/region.png>
-Package pdftex.def Info: Images/region.png  used on input line 170.
+Package pdftex.def Info: Images/region.png  used on input line 171.
 (pdftex.def)             Requested size: 367.6649pt x 277.36961pt.
  [6 <./Images/region.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 180--183
+Underfull \hbox (badness 10000) in paragraph at lines 181--184
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 185--188
+Underfull \hbox (badness 10000) in paragraph at lines 186--189
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 190--195
+Underfull \hbox (badness 10000) in paragraph at lines 191--196
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--202
+Underfull \hbox (badness 10000) in paragraph at lines 197--203
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--205
+Underfull \hbox (badness 10000) in paragraph at lines 205--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 206--209
+Underfull \hbox (badness 10000) in paragraph at lines 207--210
 
  []
 
 <Images/reaching1.png, id=52, 907.39pt x 684.5575pt>
 File: Images/reaching1.png Graphic file (type png)
 <use Images/reaching1.png>
-Package pdftex.def Info: Images/reaching1.png  used on input line 214.
+Package pdftex.def Info: Images/reaching1.png  used on input line 215.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
 <Images/reaching2.png, id=53, 907.39pt x 684.5575pt>
 File: Images/reaching2.png Graphic file (type png)
 <use Images/reaching2.png>
-Package pdftex.def Info: Images/reaching2.png  used on input line 215.
+Package pdftex.def Info: Images/reaching2.png  used on input line 216.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
 <Images/reaching3.png, id=54, 907.39pt x 684.5575pt>
 File: Images/reaching3.png Graphic file (type png)
 <use Images/reaching3.png>
-Package pdftex.def Info: Images/reaching3.png  used on input line 216.
+Package pdftex.def Info: Images/reaching3.png  used on input line 217.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 224--225
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--228
+Underfull \hbox (badness 10000) in paragraph at lines 227--229
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 233--234
+Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
  []
 
 <Images/bitVector.png, id=59, 907.39pt x 684.5575pt>
 File: Images/bitVector.png Graphic file (type png)
 <use Images/bitVector.png>
-Package pdftex.def Info: Images/bitVector.png  used on input line 237.
+Package pdftex.def Info: Images/bitVector.png  used on input line 238.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--244
+Underfull \hbox (badness 10000) in paragraph at lines 243--245
 
  []
 
@@ -412,70 +431,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 242--244
 <Images/udchain.png, id=67, 907.39pt x 684.5575pt>
 File: Images/udchain.png Graphic file (type png)
 <use Images/udchain.png>
-Package pdftex.def Info: Images/udchain.png  used on input line 247.
+Package pdftex.def Info: Images/udchain.png  used on input line 248.
 (pdftex.def)             Requested size: 210.09193pt x 158.4999pt.
 <Images/udchain2.png, id=68, 940.51375pt x 494.84875pt>
 File: Images/udchain2.png Graphic file (type png)
 <use Images/udchain2.png>
-Package pdftex.def Info: Images/udchain2.png  used on input line 257.
+Package pdftex.def Info: Images/udchain2.png  used on input line 258.
 (pdftex.def)             Requested size: 315.14594pt x 165.815pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--265
+Underfull \hbox (badness 10000) in paragraph at lines 264--266
 
  []
 
 <Images/available1.png, id=69, 932.48375pt x 424.58624pt>
 File: Images/available1.png Graphic file (type png)
 <use Images/available1.png>
-Package pdftex.def Info: Images/available1.png  used on input line 268.
+Package pdftex.def Info: Images/available1.png  used on input line 269.
 (pdftex.def)             Requested size: 157.57297pt x 71.74463pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--274
+Underfull \hbox (badness 10000) in paragraph at lines 274--275
 
  []
 
 [9 <./Images/udchain.png> <./Images/udchain2.png> <./Images/available1.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 275--276
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 278--283
+Underfull \hbox (badness 10000) in paragraph at lines 279--284
 
  []
 
 <Images/egen.png, id=76, 710.655pt x 231.86626pt>
 File: Images/egen.png Graphic file (type png)
 <use Images/egen.png>
-Package pdftex.def Info: Images/egen.png  used on input line 290.
+Package pdftex.def Info: Images/egen.png  used on input line 291.
 (pdftex.def)             Requested size: 210.09193pt x 68.545pt.
 <Images/ekill.png, id=77, 710.655pt x 231.86626pt>
 File: Images/ekill.png Graphic file (type png)
 <use Images/ekill.png>
-Package pdftex.def Info: Images/ekill.png  used on input line 291.
+Package pdftex.def Info: Images/ekill.png  used on input line 292.
 (pdftex.def)             Requested size: 210.09193pt x 68.545pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 297--298
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--303
+Underfull \hbox (badness 10000) in paragraph at lines 301--304
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 309--312
+Underfull \hbox (badness 10000) in paragraph at lines 310--313
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 318--319
+Underfull \hbox (badness 10000) in paragraph at lines 319--320
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
 
  []
 
@@ -483,93 +502,93 @@ Underfull \hbox (badness 10000) in paragraph at lines 321--322
 <Images/phi.png, id=84, 987.69pt x 749.80125pt>
 File: Images/phi.png Graphic file (type png)
 <use Images/phi.png>
-Package pdftex.def Info: Images/phi.png  used on input line 326.
+Package pdftex.def Info: Images/phi.png  used on input line 327.
 (pdftex.def)             Requested size: 367.6649pt x 279.10394pt.
 <Images/example.png, id=85, 1236.62pt x 763.85374pt>
 File: Images/example.png Graphic file (type png)
 <use Images/example.png>
-Package pdftex.def Info: Images/example.png  used on input line 333.
+Package pdftex.def Info: Images/example.png  used on input line 334.
 (pdftex.def)             Requested size: 367.6649pt x 227.10652pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 338--339
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
 [11 <./Images/phi.png> <./Images/example.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 347--350
+Underfull \hbox (badness 10000) in paragraph at lines 348--351
 
  []
 
 <Images/live.png, id=91, 826.08624pt x 725.71124pt>
 File: Images/live.png Graphic file (type png)
 <use Images/live.png>
-Package pdftex.def Info: Images/live.png  used on input line 353.
+Package pdftex.def Info: Images/live.png  used on input line 354.
 (pdftex.def)             Requested size: 157.57297pt x 138.41809pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 358--359
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--365
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 366--371
+Underfull \hbox (badness 10000) in paragraph at lines 367--372
 
  []
 
 <Images/duchain.png, id=92, 1009.7725pt x 687.56876pt>
 File: Images/duchain.png Graphic file (type png)
 <use Images/duchain.png>
-Package pdftex.def Info: Images/duchain.png  used on input line 374.
+Package pdftex.def Info: Images/duchain.png  used on input line 375.
 (pdftex.def)             Requested size: 157.57297pt x 107.28546pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 379--380
+Underfull \hbox (badness 10000) in paragraph at lines 380--381
 
  []
 
 <Images/duchain2.png, id=93, 1009.7725pt x 687.56876pt>
 File: Images/duchain2.png Graphic file (type png)
 <use Images/duchain2.png>
-Package pdftex.def Info: Images/duchain2.png  used on input line 385.
+Package pdftex.def Info: Images/duchain2.png  used on input line 386.
 (pdftex.def)             Requested size: 367.6649pt x 250.34676pt.
 [12 <./Images/live.png> <./Images/duchain.png>]
 <Images/hoisting.png, id=99, 907.39pt x 320.19624pt>
 File: Images/hoisting.png Graphic file (type png)
 <use Images/hoisting.png>
-Package pdftex.def Info: Images/hoisting.png  used on input line 395.
+Package pdftex.def Info: Images/hoisting.png  used on input line 396.
 (pdftex.def)             Requested size: 446.4554pt x 157.54245pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 400--401
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 402--405
+Underfull \hbox (badness 10000) in paragraph at lines 403--406
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 407--410
+Underfull \hbox (badness 10000) in paragraph at lines 408--411
 
  []
 
 <Images/anticipated.png, id=100, 977.6525pt x 733.74126pt>
 File: Images/anticipated.png Graphic file (type png)
 <use Images/anticipated.png>
-Package pdftex.def Info: Images/anticipated.png  used on input line 413.
+Package pdftex.def Info: Images/anticipated.png  used on input line 414.
 (pdftex.def)             Requested size: 315.14594pt x 236.52618pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -578,45 +597,83 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Images/summary1.png, id=107, 932.48375pt x 570.13pt>
 File: Images/summary1.png Graphic file (type png)
 <use Images/summary1.png>
-Package pdftex.def Info: Images/summary1.png  used on input line 421.
+Package pdftex.def Info: Images/summary1.png  used on input line 422.
 (pdftex.def)             Requested size: 236.35544pt x 144.50693pt.
 <Images/summary2.png, id=108, 1007.765pt x 630.355pt>
 File: Images/summary2.png Graphic file (type png)
 <use Images/summary2.png>
-Package pdftex.def Info: Images/summary2.png  used on input line 422.
+Package pdftex.def Info: Images/summary2.png  used on input line 423.
 (pdftex.def)             Requested size: 236.35544pt x 147.83527pt.
 <Images/summary3.png, id=109, 1007.765pt x 630.355pt>
 File: Images/summary3.png Graphic file (type png)
 <use Images/summary3.png>
-Package pdftex.def Info: Images/summary3.png  used on input line 423.
+Package pdftex.def Info: Images/summary3.png  used on input line 424.
 (pdftex.def)             Requested size: 236.35544pt x 147.83527pt.
 <Images/summary4.png, id=110, 1056.94875pt x 644.4075pt>
 File: Images/summary4.png Graphic file (type png)
 <use Images/summary4.png>
-Package pdftex.def Info: Images/summary4.png  used on input line 424.
+Package pdftex.def Info: Images/summary4.png  used on input line 425.
 (pdftex.def)             Requested size: 236.35544pt x 144.10046pt.
  [14 <./Images/anticipated.png> <./Images/summary1.png> <./Images/summary2.png> <./Images/summary3.png> <./Images/summary4.png>]
 <Images/GCSE.png, id=119, 765.86125pt x 245.91875pt>
 File: Images/GCSE.png Graphic file (type png)
 <use Images/GCSE.png>
-Package pdftex.def Info: Images/GCSE.png  used on input line 446.
+Package pdftex.def Info: Images/GCSE.png  used on input line 447.
 (pdftex.def)             Requested size: 315.14594pt x 101.19507pt.
 <Images/GCSE2.png, id=120, 778.91pt x 606.265pt>
 File: Images/GCSE2.png Graphic file (type png)
 <use Images/GCSE2.png>
-Package pdftex.def Info: Images/GCSE2.png  used on input line 453.
+Package pdftex.def Info: Images/GCSE2.png  used on input line 454.
 (pdftex.def)             Requested size: 236.35544pt x 183.96234pt.
 <Images/GCSE3.png, id=121, 778.91pt x 606.265pt>
 File: Images/GCSE3.png Graphic file (type png)
 <use Images/GCSE3.png>
-Package pdftex.def Info: Images/GCSE3.png  used on input line 454.
+Package pdftex.def Info: Images/GCSE3.png  used on input line 455.
 (pdftex.def)             Requested size: 236.35544pt x 183.96234pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 459--460
+Underfull \hbox (badness 10000) in paragraph at lines 460--461
 
  []
 
-[15 <./Images/GCSE.png> <./Images/GCSE2.png> <./Images/GCSE3.png>] (./report.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 463--466
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+<Images/CP.jpeg, id=122, 1738.495pt x 1246.6575pt>
+File: Images/CP.jpeg Graphic file (type jpg)
+<use Images/CP.jpeg>
+Package pdftex.def Info: Images/CP.jpeg  used on input line 471.
+(pdftex.def)             Requested size: 262.61894pt x 188.32213pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[15 <./Images/GCSE.png> <./Images/GCSE2.png> <./Images/GCSE3.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 478--479
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 480--486
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 488--492
+
+ []
+
+<Images/CP2.png, id=129, 871.255pt x 492.84125pt>
+File: Images/CP2.png Graphic file (type png)
+<use Images/CP2.png>
+Package pdftex.def Info: Images/CP2.png  used on input line 497.
+(pdftex.def)             Requested size: 367.6649pt x 207.96951pt.
+[16 <./Images/CP.jpeg> <./Images/CP2.png>] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -627,18 +684,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3330 strings out of 474222
- 52252 string characters out of 5748734
+ 3878 strings out of 474222
+ 58689 string characters out of 5748734
  1935975 words of memory out of 5000000
- 25576 multiletter control sequences out of 15000+600000
- 563787 words of font info for 56 fonts, out of 8000000 for 9000
+ 26105 multiletter control sequences out of 15000+600000
+ 566267 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,521b,240s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,8n,65p,521b,240s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on report.pdf (15 pages, 2310419 bytes).
+Output written on report.pdf (16 pages, 2650710 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 190 PDF objects out of 1000 (max. 8388607)
+ 78 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 161 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 
