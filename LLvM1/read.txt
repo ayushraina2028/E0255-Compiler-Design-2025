@@ -1,0 +1,10 @@
+1. To Generate LLVM IR from C++ Code:
+
+clang++ -S -emit-llvm hello.cpp -o hello.ll 
+cat hello.ll 
+
+2. Compile LLVM IR to Assembly
+
+llc hello.ll -o hello.s
+cat hello.s 
+
