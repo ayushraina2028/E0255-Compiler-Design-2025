@@ -1,4 +1,9 @@
 .vscode
-Notes/report.tex
-Notes/tau-book.cls
-Notes/tau.sty
+Notes
+LatexNotes/notes.tex
+LatexNotes/notes.aux
+LatexNotes/notes.fdb_latexmk
+LatexNotes/notes.fls
+LatexNotes/notes.log
+LatexNotes/notes.synctex.gz
+LatexNotes/notes.out
