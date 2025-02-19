@@ -1,9 +1,10 @@
 .vscode
 Notes
-LatexNotes/notes.tex
-LatexNotes/notes.aux
-LatexNotes/notes.fdb_latexmk
-LatexNotes/notes.fls
-LatexNotes/notes.log
-LatexNotes/notes.synctex.gz
-LatexNotes/notes.out
+LatexNotes/*
+!LatexNotes/*.pdf
+LLvM1/Basics/build/*
+llvm-pass-demo/.vscode
+llvm-pass-demo/MyFirstPass/build/*
+llvm-pass-demo/MyFirstPass/include/*
+llvm-pass-demo/MyFirstPass/lib/*
+llvm-pass-demo/MyFirstPass/CMakeLists.txt
