@@ -6,5 +6,4 @@ LLvM1/Basics/build/*
 llvm-pass-demo/.vscode
 llvm-pass-demo/MyFirstPass/build/*
 llvm-pass-demo/MyFirstPass/include/*
-llvm-pass-demo/MyFirstPass/lib/*
 llvm-pass-demo/MyFirstPass/CMakeLists.txt
