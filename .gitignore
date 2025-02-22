@@ -1,9 +1,11 @@
 .vscode
 Notes
-LatexNotes/*
-!LatexNotes/*.pdf
-LLvM1/Basics/build/*
 llvm-pass-demo/.vscode
-llvm-pass-demo/MyFirstPass/build/*
-llvm-pass-demo/MyFirstPass/include/*
-llvm-pass-demo/MyFirstPass/CMakeLists.txt
+*/build/*
+*/include/*
+LatexNotes/Part1/*
+!LatexNotes/Part1/*.pdf 
+LatexNotes/Part2/*
+!LatexNotes/Part2/*.pdf
+LatexNotes/ClassNotes/Thursday20Feb/*
+!LatexNotes/ClassNotes/Thursday20Feb/*.pdf

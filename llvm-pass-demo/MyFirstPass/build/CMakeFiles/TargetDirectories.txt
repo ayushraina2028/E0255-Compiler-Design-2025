@@ -1,0 +1,10 @@
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/intrinsics_gen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/vt_gen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/omp_gen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/acc_gen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/ARMTargetParserTableGen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/AArch64TargetParserTableGen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/MyFirstPass.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/edit_cache.dir
+/home/ayushraina/Desktop/CompilerDesign/llvm-pass-demo/MyFirstPass/build/CMakeFiles/rebuild_cache.dir

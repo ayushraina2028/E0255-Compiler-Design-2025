@@ -1,5 +1,0 @@
-1. opt -load-pass-plugin=./build/libMyFirstPass.so test.ll -passes=myfirstpass
-2. opt -load-pass-plugin=./build/libMyFirstPass.so -passes=myfirstpass -debug-pass-manager test.ll -o /dev/null
-3. opt -load-pass-plugin=./build/libMyFirstPass.so -passes=myfirstpass -stats test.ll -o /dev/null
-4. opt -load-pass-plugin=./build/libMyFirstPass.so -passes=myfirstpass -debug test.ll -o /dev/null
-5. opt -load-pass-plugin=./build/libMyFirstPass.so -passes="function(myfirstpass)" test.ll -o /dev/null

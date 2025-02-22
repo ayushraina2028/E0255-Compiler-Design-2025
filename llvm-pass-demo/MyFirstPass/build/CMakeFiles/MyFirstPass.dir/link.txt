@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared  -o libMyFirstPass.so CMakeFiles/MyFirstPass.dir/lib/MyFirstPass.cpp.o 
