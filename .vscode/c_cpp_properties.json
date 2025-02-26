@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "name": "linux-clang-x64",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/home/ayushraina/llvm-project/llvm/include",  // Your LLVM include path
+        "/usr/local/include",
+        "/usr/include"
+      ],
+      "compilerPath": "/home/ayushraina/llvm-project/build/bin/clang++",  // Using Clang for better LLVM compatibility
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-clang-x64",
+      "compilerArgs": [
+        "-std=c++17",
+        "-fPIC",
+        "-Wno-unused-command-line-argument"
+      ],
+      "compileCommands": "/home/ayushraina/llvm-project/build/compile_commands.json" // Ensure CMake generates this
+    }
+  ],
+  "version": 4
+}
