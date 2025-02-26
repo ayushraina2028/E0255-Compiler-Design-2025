@@ -1,10 +1,9 @@
-void example(int x, int y) {
-    int a, b, c;
+int test1(int a, int b, int e) {
+    int c, d, f;
     
-    a = x + y;  // (x + y) is computed here
-    if (x > 0) {
-        b = x + y;  // (x + y) is redundantly computed again
-    } else {
-        c = x + y;  // (x + y) is also computed here
-    }
+    c = a + b;  // Anticipated: (a + b), should be in V_USE
+    d = c + e;  // Anticipated: (c + e), should be in V_USE
+    f = a + b;  // Reuse of (a + b), should be in V_DEF
+
+    return d + f;
 }
