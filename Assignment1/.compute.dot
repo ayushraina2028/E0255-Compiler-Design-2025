@@ -1,0 +1,12 @@
+digraph "CFG for 'compute' function" {
+	label="CFG for 'compute' function";
+
+	Node0x5a24e6ae3120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870" fontname="Courier",label="{3:\l|  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  %9 = alloca i32, align 4\l  %10 = alloca i32, align 4\l  %11 = alloca i32, align 4\l  %12 = alloca i32, align 4\l  store i32 %0, ptr %4, align 4\l  store i32 %1, ptr %5, align 4\l  store i32 %2, ptr %6, align 4\l  %13 = load i32, ptr %4, align 4\l  %14 = load i32, ptr %5, align 4\l  %15 = add nsw i32 %13, %14\l  store i32 %15, ptr %7, align 4\l  %16 = load i32, ptr %7, align 4\l  %17 = load i32, ptr %6, align 4\l  %18 = mul nsw i32 %16, %17\l  store i32 %18, ptr %8, align 4\l  %19 = load i32, ptr %8, align 4\l  %20 = load i32, ptr %4, align 4\l  %21 = sub nsw i32 %19, %20\l  store i32 %21, ptr %9, align 4\l  %22 = load i32, ptr %9, align 4\l  %23 = icmp sgt i32 %22, 0\l  br i1 %23, label %24, label %30\l|{<s0>T|<s1>F}}"];
+	Node0x5a24e6ae3120:s0 -> Node0x5a24e6ae3240;
+	Node0x5a24e6ae3120:s1 -> Node0x5a24e6ae5e40;
+	Node0x5a24e6ae3240 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70" fontname="Courier",label="{24:\l|  %25 = load i32, ptr %7, align 4\l  %26 = load i32, ptr %9, align 4\l  %27 = add nsw i32 %25, %26\l  store i32 %27, ptr %10, align 4\l  %28 = load i32, ptr %10, align 4\l  %29 = mul nsw i32 %28, 2\l  store i32 %29, ptr %8, align 4\l  br label %37\l}"];
+	Node0x5a24e6ae3240 -> Node0x5a24e6ae6890;
+	Node0x5a24e6ae5e40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170" fontname="Courier",label="{30:\l|  %31 = load i32, ptr %8, align 4\l  %32 = load i32, ptr %6, align 4\l  %33 = add nsw i32 %31, %32\l  store i32 %33, ptr %11, align 4\l  %34 = load i32, ptr %11, align 4\l  %35 = load i32, ptr %5, align 4\l  %36 = sub nsw i32 %34, %35\l  store i32 %36, ptr %9, align 4\l  br label %37\l}"];
+	Node0x5a24e6ae5e40 -> Node0x5a24e6ae6890;
+	Node0x5a24e6ae6890 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870" fontname="Courier",label="{37:\l|  %38 = load i32, ptr %8, align 4\l  %39 = load i32, ptr %9, align 4\l  %40 = add nsw i32 %38, %39\l  store i32 %40, ptr %12, align 4\l  %41 = load i32, ptr %12, align 4\l  ret i32 %41\l}"];
+}
