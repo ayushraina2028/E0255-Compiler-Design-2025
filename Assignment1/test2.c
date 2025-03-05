@@ -1,7 +1,13 @@
-int test_function(int a, int b, int e) {
- int c, d, f;
-c = a + b; // First anticipated expression (used later)*
-d = c + e; // Second anticipated expression (used later)*
-f = a + b;// Third anticipated expression (same as first)*
-return d + f; // Use of previously computed values*
+int simple_if_else_multiple(int x, int *ptr) {
+    int result;
+    
+    if (x > 3) {
+        result = x * x + x + 5;
+    } else if (x > 2) {
+        result = x * x + x + 5;
+    } else {
+        result = x * x + x + 5;
+    }
+
+    return result;
 }

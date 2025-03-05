@@ -1,10 +1,9 @@
-#include <stdio.h>
-
-int main() {
-    int a = 5, b = 10;
-    for (int i = 0; i < 3; i++) {
-        int x = a * b;  // Recomputed in every loop iteration
-        printf("%d\n", x);
+int simple_if_else(int x, int *ptr) {
+    int result;
+    if (x > 2) {
+        result = x * x + x + 5;
+    } else {
+        result = x * x + x + 5;
     }
-    return 0;
-}
+    return result;
+}   

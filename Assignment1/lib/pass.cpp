@@ -7,6 +7,11 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/InstIterator.h"
+#include "llvm/Analysis/CallGraphSCCPass.h"
+#include "llvm/ADT/SmallPtrSet.h"
+#include "llvm/ADT/BitVector.h"
+#include "llvm/IR/InstrTypes.h"
+#include "llvm/IR/IRBuilder.h"
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -14,15 +19,16 @@ using namespace llvm;
 
 namespace {
 struct HoistAnticipatedExpressions : public PassInfoMixin<HoistAnticipatedExpressions> {
-
+    
     PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM) {
         
 
-        return PreservedAnalyses::all();
+        return PreservedAnalyses::none();
     }
 };
 }
 
+// Pass registration
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
     return {
