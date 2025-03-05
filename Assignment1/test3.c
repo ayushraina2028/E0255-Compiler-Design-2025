@@ -1,31 +1,43 @@
-// test2.c - More complex patterns
-int test_complex() {
-    // Nested if/else
-    int a = 10, b = 20, c = 30;
+// test_comprehensive.c
+int test_function() {
+    // Memory operations
+    int arr[10];
+    int *p = arr;
+    *p = 5;
+    int val = *p;
+
+    // Redundant expressions
+    int a = 10, b = 20;
+    int sum1 = a + b;  // First computation
+    int sum2 = a + b;  // Redundant computation
+
+    // If/else with anticipated expressions
     if (a > b) {
-        if (b > c) {
-            a = b + c;
-        } else {
-            b = a + c;
-        }
+        sum1 = a + b;  // Same expression in both branches
+        val = sum1 * 2;
     } else {
-        c = a + b;
+        sum1 = a + b;  // Same expression in both branches
+        val = sum1 * 3;
     }
 
-    // Nested loops
-    int arr[10][10];
+    // Switch statement
+    switch(val) {
+        case 1:
+            sum1 = a + b;
+            break;
+        case 2:
+            sum2 = a + b;
+            break;
+        default:
+            val = 0;
+    }
+
+    // Loop with invariant
+    int invariant = 42;
     for(int i = 0; i < 10; i++) {
-        int outer_invariant = a * b;  // Loop invariant for outer loop
-        for(int j = 0; j < 10; j++) {
-            arr[i][j] = outer_invariant + j;
-        }
+        arr[i] = invariant * 2;  // Loop invariant expression
+        sum1 += i;               // Loop varying expression
     }
 
-    // Multiple redundant expressions
-    int sum1 = a + b;
-    int sum2 = b + c;
-    int sum3 = a + b;  // Redundant with sum1
-    int sum4 = b + c;  // Redundant with sum2
-
-    return sum1 + sum2 + sum3 + sum4;
+    return sum1 + sum2;
 }

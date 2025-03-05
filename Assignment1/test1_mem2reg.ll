@@ -1,4 +1,4 @@
-; ModuleID = 'test1.c'
+; ModuleID = 'test1.ll'
 source_filename = "test1.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
@@ -7,38 +7,23 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-  %1 = alloca i32, align 4
-  %2 = alloca i32, align 4
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  store i32 0, ptr %1, align 4
-  store i32 5, ptr %2, align 4
-  store i32 10, ptr %3, align 4
-  store i32 0, ptr %4, align 4
+  br label %1
+
+1:                                                ; preds = %6, %0
+  %.0 = phi i32 [ 0, %0 ], [ %7, %6 ]
+  %2 = icmp slt i32 %.0, 3
+  br i1 %2, label %3, label %8
+
+3:                                                ; preds = %1
+  %4 = mul nsw i32 5, 10
+  %5 = call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %4)
   br label %6
 
-6:                                                ; preds = %15, %0
-  %7 = load i32, ptr %4, align 4
-  %8 = icmp slt i32 %7, 3
-  br i1 %8, label %9, label %18
+6:                                                ; preds = %3
+  %7 = add nsw i32 %.0, 1
+  br label %1, !llvm.loop !6
 
-9:                                                ; preds = %6
-  %10 = load i32, ptr %2, align 4
-  %11 = load i32, ptr %3, align 4
-  %12 = mul nsw i32 %10, %11
-  store i32 %12, ptr %5, align 4
-  %13 = load i32, ptr %5, align 4
-  %14 = call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %13)
-  br label %15
-
-15:                                               ; preds = %9
-  %16 = load i32, ptr %4, align 4
-  %17 = add nsw i32 %16, 1
-  store i32 %17, ptr %4, align 4
-  br label %6, !llvm.loop !6
-
-18:                                               ; preds = %6
+8:                                                ; preds = %1
   ret i32 0
 }
 

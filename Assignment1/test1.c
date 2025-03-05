@@ -1,9 +1,10 @@
-int test1(int a, int b, int e) {
-    int c, d, f;
-    
-    c = a + b;  // Anticipated: (a + b), should be in V_USE
-    d = c + e;  // Anticipated: (c + e), should be in V_USE
-    f = a + b;  // Reuse of (a + b), should be in V_DEF
+#include <stdio.h>
 
-    return d + f;
+int main() {
+    int a = 5, b = 10;
+    for (int i = 0; i < 3; i++) {
+        int x = a * b;  // Recomputed in every loop iteration
+        printf("%d\n", x);
+    }
+    return 0;
 }
