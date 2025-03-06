@@ -4,32 +4,57 @@ target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:
 target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @test_function(i32 noundef %0, i32 noundef %1, i32 noundef %2) #0 {
-  %4 = alloca i32, align 4
+define dso_local i32 @simple_if_else_multiple(i32 noundef %0, ptr noundef %1) #0 {
+  %3 = alloca i32, align 4
+  %4 = alloca ptr, align 8
   %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
-  %7 = alloca i32, align 4
-  %8 = alloca i32, align 4
-  %9 = alloca i32, align 4
-  store i32 %0, ptr %4, align 4
-  store i32 %1, ptr %5, align 4
-  store i32 %2, ptr %6, align 4
-  %10 = load i32, ptr %4, align 4
-  %11 = load i32, ptr %5, align 4
-  %12 = add nsw i32 %10, %11
-  store i32 %12, ptr %7, align 4
-  %13 = load i32, ptr %7, align 4
-  %14 = load i32, ptr %6, align 4
-  %15 = add nsw i32 %13, %14
-  store i32 %15, ptr %8, align 4
-  %16 = load i32, ptr %4, align 4
-  %17 = load i32, ptr %5, align 4
-  %18 = add nsw i32 %16, %17
-  store i32 %18, ptr %9, align 4
-  %19 = load i32, ptr %8, align 4
-  %20 = load i32, ptr %9, align 4
-  %21 = add nsw i32 %19, %20
-  ret i32 %21
+  store i32 %0, ptr %3, align 4
+  store ptr %1, ptr %4, align 8
+  %6 = load i32, ptr %3, align 4
+  %7 = icmp sgt i32 %6, 3
+  br i1 %7, label %8, label %15
+
+8:                                                ; preds = %2
+  %9 = load i32, ptr %3, align 4
+  %10 = load i32, ptr %3, align 4
+  %11 = mul nsw i32 %9, %10
+  %12 = load i32, ptr %3, align 4
+  %13 = add nsw i32 %11, %12
+  %14 = add nsw i32 %13, 5
+  store i32 %14, ptr %5, align 4
+  br label %33
+
+15:                                               ; preds = %2
+  %16 = load i32, ptr %3, align 4
+  %17 = icmp sgt i32 %16, 2
+  br i1 %17, label %18, label %25
+
+18:                                               ; preds = %15
+  %19 = load i32, ptr %3, align 4
+  %20 = load i32, ptr %3, align 4
+  %21 = mul nsw i32 %19, %20
+  %22 = load i32, ptr %3, align 4
+  %23 = add nsw i32 %21, %22
+  %24 = add nsw i32 %23, 5
+  store i32 %24, ptr %5, align 4
+  br label %32
+
+25:                                               ; preds = %15
+  %26 = load i32, ptr %3, align 4
+  %27 = load i32, ptr %3, align 4
+  %28 = mul nsw i32 %26, %27
+  %29 = load i32, ptr %3, align 4
+  %30 = add nsw i32 %28, %29
+  %31 = add nsw i32 %30, 5
+  store i32 %31, ptr %5, align 4
+  br label %32
+
+32:                                               ; preds = %25, %18
+  br label %33
+
+33:                                               ; preds = %32, %8
+  %34 = load i32, ptr %5, align 4
+  ret i32 %34
 }
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
