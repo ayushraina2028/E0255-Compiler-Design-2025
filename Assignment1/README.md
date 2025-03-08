@@ -18,7 +18,6 @@ To run the pass on an LLVM IR file, run the following command:
 ```sh
 opt -load-pass-plugin=./build/libHoistAnticipatedExpressions.so -passes="hoist-anticipated-expressions" test1.ll -o -disable-output
 cat modified_output.ll
-``` 
 
 1. Replace test1.ll with any other test file from the Test Cases folder.
 2. The pass modifies the input LLVM IR and generates an output file named modified_output.ll, containing the transformed IR after performing code hoisting.
