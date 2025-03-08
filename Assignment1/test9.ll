@@ -1,45 +1,47 @@
-; ModuleID = 'test3.c'
-source_filename = "test3.c"
+; ModuleID = 'test9.c'
+source_filename = "test9.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @if_else_memory(i32 noundef %0, ptr noundef %1) #0 {
+define dso_local i32 @not_anticipated_switch(i32 noundef %0, ptr noundef %1) #0 {
   %3 = alloca i32, align 4
   %4 = alloca ptr, align 8
   %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
   store i32 %0, ptr %3, align 4
   store ptr %1, ptr %4, align 8
-  store i32 0, ptr %5, align 4
-  %7 = load i32, ptr %3, align 4
-  store i32 %7, ptr %6, align 4
-  %8 = load i32, ptr %6, align 4
-  %9 = icmp sgt i32 %8, 2
-  br i1 %9, label %10, label %17
+  %6 = load i32, ptr %3, align 4
+  switch i32 %6, label %17 [
+    i32 0, label %7
+    i32 1, label %7
+    i32 2, label %7
+  ]
 
-10:                                               ; preds = %2
-  %11 = load i32, ptr %6, align 4
-  %12 = load i32, ptr %6, align 4
-  %13 = mul nsw i32 %11, %12
-  %14 = load i32, ptr %6, align 4
-  %15 = add nsw i32 %13, %14
-  %16 = add nsw i32 %15, 5
-  store i32 %16, ptr %6, align 4
+7:                                                ; preds = %2, %2, %2
+  %8 = load i32, ptr %3, align 4
+  %9 = srem i32 %8, 2
+  %10 = load i32, ptr %3, align 4
+  %11 = srem i32 %10, 2
+  %12 = mul nsw i32 %9, %11
+  %13 = load i32, ptr %3, align 4
+  %14 = srem i32 %13, 2
+  %15 = add nsw i32 %12, %14
+  %16 = add nsw i32 %15, 3
+  store i32 %16, ptr %5, align 4
   br label %24
 
 17:                                               ; preds = %2
-  %18 = load i32, ptr %6, align 4
-  %19 = load i32, ptr %6, align 4
+  %18 = load i32, ptr %3, align 4
+  %19 = load i32, ptr %3, align 4
   %20 = mul nsw i32 %18, %19
-  %21 = load i32, ptr %6, align 4
+  %21 = load i32, ptr %3, align 4
   %22 = add nsw i32 %20, %21
-  %23 = add nsw i32 %22, 3
-  store i32 %23, ptr %6, align 4
+  %23 = add nsw i32 %22, 2
+  store i32 %23, ptr %5, align 4
   br label %24
 
-24:                                               ; preds = %17, %10
-  %25 = load i32, ptr %6, align 4
+24:                                               ; preds = %17, %7
+  %25 = load i32, ptr %5, align 4
   ret i32 %25
 }
 

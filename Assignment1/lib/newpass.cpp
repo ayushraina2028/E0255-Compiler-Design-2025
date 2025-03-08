@@ -25,26 +25,165 @@ namespace {
     struct HoistAnticipatedExpressions : public PassInfoMixin<HoistAnticipatedExpressions> {
         using Expression = tuple<unsigned int, Value*, Value*>;
 
+        static void *ID() { return nullptr; }
+        static bool isRequired() { return true; }
+
+        void printSets(Function &F, DenseMap<BasicBlock*, BitVector> &Gen, DenseMap<BasicBlock*, BitVector> &Kill, DenseMap<BasicBlock*, BitVector> &IN, DenseMap<BasicBlock*, BitVector> &OUT, unsigned int nextBitIndex) {
+            for (auto &BB : F) {
+                errs() << "BasicBlock: " << BB.getName() << "\n";
+                errs() << "  Gen:  ";
+                for (unsigned i = 0; i < nextBitIndex; ++i) {
+                    errs() << Gen[&BB][i];
+                }
+                errs() << "\n  Kill: ";
+                for (unsigned i = 0; i < nextBitIndex; ++i) {
+                    errs() << Kill[&BB][i];
+                }
+                errs() << "\n  In:   ";
+                for (unsigned i = 0; i < nextBitIndex; ++i) {
+                    errs() << IN[&BB][i];
+                }
+                errs() << "\n  Out:  ";
+                for (unsigned i = 0; i < nextBitIndex; ++i) {
+                    errs() << OUT[&BB][i];
+                }
+                errs() << "\n";
+            }
+        }
+
+            void hoistAnticipatedExpressions(Function &F, 
+                                DenseMap<BasicBlock*, BitVector> &OUT,
+                                DenseMap<Expression, unsigned int> &ExpressionToBitMap,
+                                DominatorTree &DT) {
+    
+    outs() << "\n=== Starting Hoisting Process ===\n";
+    
+    DenseMap<unsigned int, Expression> BitToExpression;
+    for (const auto &Entry : ExpressionToBitMap) {
+        BitToExpression[Entry.second] = Entry.first;
+    }
+
+    // Track hoisted expressions to avoid duplicates
+    DenseMap<Expression, Value*> HoistedExpressions;
+    
+    // Global counter for naming hoisted instructions
+    static unsigned int HoistCounter = 0;
+
+    for (auto &BB : F) {
+        outs() << "\nProcessing Block: " << BB.getName() << "\n";
+        BitVector &anticipatedExprs = OUT[&BB];
+        
+        outs() << "OUT set for this block: ";
+        for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
+            outs() << anticipatedExprs[i];
+        }
+        outs() << "\n";
+
+        for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
+            if (anticipatedExprs[i]) {
+                Expression expr = BitToExpression[i];
+                
+                // Check if we've already hoisted this expression
+                if (HoistedExpressions.count(expr) > 0) {
+                    outs() << "Expression already hoisted, skipping...\n";
+                    continue;
+                }
+
+                unsigned opcode = get<0>(expr);
+                Value *op1 = get<1>(expr);
+                Value *op2 = get<2>(expr);
+
+                outs() << "\nFound anticipated expression at bit " << i << "\n";
+                outs() << "Opcode: " << Instruction::getOpcodeName(opcode) << "\n";
+                outs() << "Operand 1: " << *op1 << "\n";
+                outs() << "Operand 2: " << *op2 << "\n";
+
+                // Find optimal hoisting location
+                BasicBlock *HoistingBlock = &F.getEntryBlock();
+                Instruction *InsertPoint = &*HoistingBlock->getFirstInsertionPt();
+
+                outs() << "Hoisting to block: " << HoistingBlock->getName() << "\n";
+
+                // Create hoisted instruction with numbered name
+                std::string hoistedName = "hoisted" + std::to_string(++HoistCounter);
+                IRBuilder<> Builder(HoistingBlock, InsertPoint->getIterator());
+                Value *newInst = Builder.CreateBinOp(
+                    static_cast<Instruction::BinaryOps>(opcode),
+                    op1, op2, hoistedName);
+                
+                if (BinaryOperator* binOp = dyn_cast<BinaryOperator>(newInst)) {
+                    binOp->setHasNoSignedWrap(true);
+                }
+                
+                // Store the hoisted expression
+                HoistedExpressions[expr] = newInst;
+                
+                outs() << "Created new instruction: " << *newInst << "\n";
+
+                // Collect all instructions to replace
+                SmallVector<BinaryOperator*, 8> InstToReplace;
+                for (auto &Block : F) {
+                    for (auto &I : Block) {
+                        if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {
+                            if (binOp == newInst) continue;
+                            
+                            if (binOp->getOpcode() == opcode &&
+                                ((binOp->getOperand(0) == op1 && binOp->getOperand(1) == op2) ||
+                                 (binOp->isCommutative() && 
+                                  binOp->getOperand(0) == op2 && binOp->getOperand(1) == op1))) {
+                                InstToReplace.push_back(binOp);
+                            }
+                        }
+                    }
+                }
+
+                // Replace and remove instructions
+                outs() << "\nReplacing instructions:\n";
+                for (auto *I : InstToReplace) {
+                    outs() << "Replacing: " << *I << "\n";
+                    I->replaceAllUsesWith(newInst);
+                    I->eraseFromParent();
+                    outs() << "Replacement complete\n";
+                }
+                outs() << "Total replacements: " << InstToReplace.size() << "\n";
+            }
+        }
+    }
+    outs() << "\n=== Hoisting Process Complete ===\n";
+}
+               
+
+    
         PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM) {
-            bool madeChanges;
+            bool changed;
+            int iteration = 0;
+            
             do {
-                madeChanges = false;
+                changed = false;
+                outs() << "\n=== Starting Iteration " << ++iteration << " ===\n";
+                
+                // Clear previous analysis results
                 DenseMap<Expression, unsigned int> ExpressionToBitMap;
                 unsigned int nextBitIndex = 0;
-        
-                // [Keep your existing analysis code for collecting expressions and computing Gen/Kill sets]
+                
+                DenseMap<BasicBlock*, BitVector> IN;
+                DenseMap<BasicBlock*, BitVector> OUT;
+                DenseMap<BasicBlock*, BitVector> Gen;
+                DenseMap<BasicBlock*, BitVector> Kill;
 
+                // Your existing analysis code here
+                // Step 1: Collect unique expressions
                 for (auto &BB : F) {
                     for (auto &Inst : BB) {
                         if (auto *BinOp = dyn_cast<BinaryOperator>(&Inst)) {
                             Value *B = BinOp->getOperand(0);    
                             Value *C = BinOp->getOperand(1);
                             unsigned int opcode = BinOp->getOpcode();
-        
+            
                             if (BinOp->isCommutative()) {
                                 tie(B, C) = minmax(B, C);
                             }
-        
+            
                             Expression exprKey = make_tuple(opcode, B, C);
                             if (ExpressionToBitMap.find(exprKey) == ExpressionToBitMap.end()) {
                                 ExpressionToBitMap[exprKey] = nextBitIndex++;
@@ -52,15 +191,17 @@ namespace {
                         }
                     }
                 }
-        
+
+                // Step 2 & 3: Your existing Gen/Kill computation
+                // ... (keep your existing code)
                 // Step 2: Initialize Gen and Kill sets for each basic block
                 DenseMap<BasicBlock *, BitVector> Gen, Kill;
                 for (auto &BB : F) {
                     Gen[&BB] = BitVector(nextBitIndex, false);
                     Kill[&BB] = BitVector(nextBitIndex, false);
                 }
-        
-                // Step 3: Compute Gen and Kill sets
+
+                 // Step 3: Compute Gen and Kill sets
                 for (auto &BB : F) {
                     DenseSet<Value *> Defined;
                     for (auto &Inst : BB) {
@@ -87,16 +228,15 @@ namespace {
                         }
                     }
                 }
-                
+
+                // Step 4: Your existing dataflow analysis
+                // ... (keep your existing code)
                 // Initialize IN and OUT sets
-                DenseMap<BasicBlock*, BitVector> IN;
-                DenseMap<BasicBlock*, BitVector> OUT;
                 for(auto &BB : F) {
                     IN[&BB] = BitVector(nextBitIndex, true);
                     OUT[&BB] = BitVector(nextBitIndex, false);
                 }
-        
-                // [Keep your existing dataflow analysis code]
+                
                 unsigned int numExpressions = nextBitIndex;
                 // Run Analsysis
                 bool changed;
@@ -135,144 +275,49 @@ namespace {
 
                 } while (changed);
                 outs() << "Data Flow Analysis Completed\n";
-        
-                // After dataflow analysis, handle hoisting and elimination
-
-                BasicBlock &entryBB = F.getEntryBlock();
-
+                
                 
 
-                // Find ALL anticipated expressions
+                outs() << "\nData Flow Analysis Completed for Iteration " << iteration << "\n";
+                
+                // Print Gen, Kill, In, Out sets
+                printSets(F, Gen, Kill, IN, OUT, nextBitIndex);
 
-                SmallVector<Expression, 4> exprsToHoist;
+                outs() << "\nIR before hoisting (Iteration " << iteration << "):\n";
+                F.print(outs());
 
-                for (const auto &pair : ExpressionToBitMap) {
-
-                    if (IN[&entryBB][pair.second]) {
-
-                        exprsToHoist.push_back(pair.first);
-
-                    }
-
+                // Get DominatorTree and perform hoisting
+                DominatorTree DT(F);
+                
+                // Store number of anticipated expressions before hoisting
+                int anticipatedBefore = 0;
+                for (auto &BB : F) {
+                    BitVector &anticipatedExprs = OUT[&BB];
+                    anticipatedBefore += anticipatedExprs.count();
                 }
 
+                // Perform hoisting
+                hoistAnticipatedExpressions(F, OUT, ExpressionToBitMap, DT);
 
-                // If we found any anticipated expressions
+                outs() << "\nIR after hoisting (Iteration " << iteration << "):\n";
+                F.print(outs());
 
-                if (!exprsToHoist.empty()) {
-
-                    madeChanges = true;
-
-                    IRBuilder<> Builder(&entryBB.front());
-
-                    
-
-                    // Hoist all anticipated expressions
-
-                    for (const Expression &exprToHoist : exprsToHoist) {
-
-                        unsigned opcode = get<0>(exprToHoist);
-
-                        Value *op1 = get<1>(exprToHoist);
-
-                        Value *op2 = get<2>(exprToHoist);
-
-
-                        // Create hoisted instruction
-
-                        Instruction *hoistedInst = BinaryOperator::Create(
-
-                            (Instruction::BinaryOps)opcode,
-
-                            op1,
-
-                            op2,
-
-                            "hoisted"
-
-                        );
-
-                        Builder.Insert(hoistedInst);
-
-
-                        // Replace uses carefully
-
-                        SmallVector<Instruction*, 8> toRemove;
-
-                        for (auto &BB : F) {
-
-                            for (auto &I : BB) {
-
-                                if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {
-
-                                    if (binOp != hoistedInst && 
-
-                                        binOp->getOpcode() == opcode) {
-
-                                        Value *B = binOp->getOperand(0);
-
-                                        Value *C = binOp->getOperand(1);
-
-                                        
-
-                                        if (binOp->isCommutative()) {
-
-                                            tie(B, C) = minmax(B, C);
-
-                                        }
-
-                                        
-
-                                        if (B == op1 && C == op2) {
-
-                                            binOp->replaceAllUsesWith(hoistedInst);
-
-                                            toRemove.push_back(binOp);
-
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-
-                        // Remove redundant instructions
-
-                        for (auto *I : toRemove) {
-
-                            I->eraseFromParent();
-
-                        }
-
-                    }
-
+                // If we hoisted any expressions, we need another iteration
+                if (anticipatedBefore > 0) {
+                    changed = true;
                 }
 
+            } while (changed);
 
-                // Debug output
-
-                outs() << "Iteration complete. Made changes: " << madeChanges << "\n";
-
-                outs() << "Number of expressions hoisted: " << exprsToHoist.size() << "\n";
-            } while (madeChanges);
-        
-
-
-                // Clear and write the final transformed IR to a file
-            std::error_code EC;
-            raw_fd_ostream OS("transformed.ll", EC);  // This will truncate by default
-            F.getParent()->print(OS, nullptr);
-
+            outs() << "\n=== Optimization completed after " << iteration << " iterations ===\n";
+            
             return PreservedAnalyses::none();
         }
-
-    };
+};
 }
 
+
+// Pass registration
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
     return {

@@ -1,27 +1,32 @@
-; ModuleID = 'test1_mem2reg.ll'
-source_filename = "test1.c"
+; ModuleID = 'test7.ll'
+source_filename = "test7.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @simple_if_else(i32 noundef %0, ptr noundef %1) #0 {
-  %3 = mul nsw i32 %0, %0
-  %4 = icmp sgt i32 %0, 2
-  br i1 %4, label %5, label %8
+define dso_local i32 @if_else_multiple_redundant_exprs(i32 noundef %0, ptr noundef %1) #0 {
+  %3 = icmp sgt i32 %0, 2
+  br i1 %3, label %4, label %9
 
-5:                                                ; preds = %2
-  %6 = add nsw i32 %3, %0
+4:                                                ; preds = %2
+  %5 = mul nsw i32 %0, %0
+  %6 = add nsw i32 %5, %0
   %7 = add nsw i32 %6, 5
-  br label %11
+  %8 = add nsw i32 %7, 5
+  br label %14
 
-8:                                                ; preds = %2
-  %9 = add nsw i32 %3, %0
-  %10 = add nsw i32 %9, 5
-  br label %11
+9:                                                ; preds = %2
+  %10 = mul nsw i32 %0, %0
+  %11 = add nsw i32 %10, %0
+  %12 = add nsw i32 %11, 3
+  %13 = mul nsw i32 %0, %0
+  br label %14
 
-11:                                               ; preds = %8, %5
-  %.0 = phi i32 [ %7, %5 ], [ %10, %8 ]
-  ret i32 %.0
+14:                                               ; preds = %9, %4
+  %.01 = phi i32 [ %5, %4 ], [ %13, %9 ]
+  %.0 = phi i32 [ %8, %4 ], [ %12, %9 ]
+  %15 = add nsw i32 %.01, %.0
+  ret i32 %15
 }
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }

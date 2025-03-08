@@ -1,26 +1,33 @@
-; ModuleID = 'test1_mem2reg.ll'
-source_filename = "test1.c"
+; ModuleID = 'test9.ll'
+source_filename = "test9.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @simple_if_else(i32 noundef %0, ptr noundef %1) #0 {
-  %3 = mul nsw i32 %0, %0
-  %4 = icmp sgt i32 %0, 2
-  br i1 %4, label %5, label %8
+define dso_local i32 @not_anticipated_switch(i32 noundef %0, ptr noundef %1) #0 {
+  switch i32 %0, label %10 [
+    i32 0, label %3
+    i32 1, label %3
+    i32 2, label %3
+  ]
 
-5:                                                ; preds = %2
-  %6 = add nsw i32 %3, %0
-  %7 = add nsw i32 %6, 5
-  br label %11
+3:                                                ; preds = %2, %2, %2
+  %4 = srem i32 %0, 2
+  %5 = srem i32 %0, 2
+  %6 = mul nsw i32 %4, %5
+  %7 = srem i32 %0, 2
+  %8 = add nsw i32 %6, %7
+  %9 = add nsw i32 %8, 3
+  br label %14
 
-8:                                                ; preds = %2
-  %9 = add nsw i32 %3, %0
-  %10 = add nsw i32 %9, 5
-  br label %11
+10:                                               ; preds = %2
+  %11 = mul nsw i32 %0, %0
+  %12 = add nsw i32 %11, %0
+  %13 = add nsw i32 %12, 2
+  br label %14
 
-11:                                               ; preds = %8, %5
-  %.0 = phi i32 [ %7, %5 ], [ %10, %8 ]
+14:                                               ; preds = %10, %3
+  %.0 = phi i32 [ %13, %10 ], [ %9, %3 ]
   ret i32 %.0
 }
 
