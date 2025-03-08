@@ -70,8 +70,7 @@ namespace {
 
                 // Your existing analysis code here
                 // Step 1: Collect unique expressions
-                // In the first pass where we collect expressions
-                // In the first pass
+
                 for (auto &BB : F) {
                     for (auto &Inst : BB) {
                         if (auto *BinOp = dyn_cast<BinaryOperator>(&Inst)) {
@@ -115,8 +114,6 @@ namespace {
                     }
                 }
                 
-                // Step 2 & 3: Your existing Gen/Kill computation
-                // ... (keep your existing code)
                 // Step 2: Initialize Gen and Kill sets for each basic block
                 for (auto &BB : F) {
                     Gen[&BB] = BitVector(nextBitIndex, false);
@@ -127,6 +124,7 @@ namespace {
                 for (auto &BB : F) {
                     DenseSet<Value *> Defined;
                     for (auto &Inst : BB) {
+                        
                         // In Gen/Kill computation
                         if (auto *BinOp = dyn_cast<BinaryOperator>(&Inst)) {
                             Value *op1 = BinOp->getOperand(0);
@@ -146,66 +144,47 @@ namespace {
                         }
                         else if (auto *Cast = dyn_cast<CastInst>(&Inst)) {
 
-                        Value *op = Cast->getOperand(0);
-
-                        Expression exprKey = make_tuple(Cast->getOpcode(), op, nullptr);
-
-                        auto it = ExpressionToBitMap.find(exprKey);
-
-                        if (it != ExpressionToBitMap.end()) {
-
-                            unsigned int bitIndex = it->second;
-
-                            if (Defined.count(op)) {
-
-                                Kill[&BB].set(bitIndex);
-
-                            } else {
-
-                                Gen[&BB].set(bitIndex);
-
-                            }
-
-                        }
-
-                    } else if (auto *Call = dyn_cast<CallInst>(&Inst)) {
-
-                        if (Call->getCalledFunction() && 
-
-                            Call->getCalledFunction()->getName() == "exp") {
-
-                            Value *op = Call->getArgOperand(0);
-
-                            Expression exprKey = make_tuple(Instruction::Call, op, nullptr);
-
+                            Value *op = Cast->getOperand(0);
+                            Expression exprKey = make_tuple(Cast->getOpcode(), op, nullptr);
                             auto it = ExpressionToBitMap.find(exprKey);
 
                             if (it != ExpressionToBitMap.end()) {
-
+                                
                                 unsigned int bitIndex = it->second;
-
                                 if (Defined.count(op)) {
-
                                     Kill[&BB].set(bitIndex);
-
                                 } else {
-
                                     Gen[&BB].set(bitIndex);
-
                                 }
 
                             }
 
+                        } else if (auto *Call = dyn_cast<CallInst>(&Inst)) {
+
+                            if (Call->getCalledFunction() && Call->getCalledFunction()->getName() == "exp") {
+
+                                Value *op = Call->getArgOperand(0);
+                                Expression exprKey = make_tuple(Instruction::Call, op, nullptr);
+                                auto it = ExpressionToBitMap.find(exprKey);
+
+                                if (it != ExpressionToBitMap.end()) {
+
+                                    unsigned int bitIndex = it->second;
+                                    if (Defined.count(op)) {
+                                        Kill[&BB].set(bitIndex);
+                                    } else {
+                                        Gen[&BB].set(bitIndex);
+                                    }
+
+                                }
+                            }
                         }
 
-                    }
                         // Track defined values to update Kill set
                         Defined.insert(&Inst);
                     }
                 }
 
-                // Step 4: Your existing dataflow analysis
-                // ... (keep your existing code)
                 // Initialize IN and OUT sets
                 for(auto &BB : F) {
                     IN[&BB] = BitVector(nextBitIndex, true);
@@ -239,6 +218,7 @@ namespace {
 
                     // Then update IN[B] for all blocks
                     for (auto &BB : F) {
+
                         // Compute IN[B] = Gen[B] ∪ (OUT[B] - Kill[B])
                         BitVector complementKill = Kill[&BB];
                         complementKill.flip();
@@ -246,13 +226,11 @@ namespace {
                         temp &= complementKill;
                         temp |= Gen[&BB];
                         IN[&BB] = temp;
+
                     }
 
                 } while (changed);
-                outs() << "Data Flow Analysis Completed\n";
                 
-                
-
                 outs() << "\nData Flow Analysis Completed for Iteration " << iteration << "\n";
                 
                 // Print Gen, Kill, In, Out sets
@@ -264,15 +242,12 @@ namespace {
                 // Get DominatorTree and perform hoisting
                 DominatorTree DT(F);
                 
-                // Store number of anticipated expressions before hoisting
                 // Store IR state before hoisting
-
                 std::string beforeIR;
-
                 raw_string_ostream rso(beforeIR);
-
                 F.print(rso);
 
+                // Store number of anticipated expressions before hoisting
                 int anticipatedBefore = 0;
                 for (auto &BB : F) {
                     BitVector &anticipatedExprs = OUT[&BB];
@@ -281,15 +256,10 @@ namespace {
 
                 outs() << "Anticipated expressions before hoisting: " << anticipatedBefore << "\n";
 
-
                 int replacementsMade = 0;
-
                 if(anticipatedBefore > 0) {
-
                     replacementsMade = hoistAnticipatedExpressions(F, OUT, ExpressionToBitMap, DT);
-
                     OuterChanged = (replacementsMade > 0);  // Only continue if we actually made replacements
-
                 }
 
                 outs() << "\nIR after hoisting (Iteration " << iteration << "):\n";
@@ -309,184 +279,190 @@ namespace {
             return PreservedAnalyses::none();
         }
 
-        int hoistAnticipatedExpressions(Function &F, 
-                               DenseMap<BasicBlock*, BitVector> &OUT,
-                               DenseMap<Expression, unsigned int> &ExpressionToBitMap,
-                               DominatorTree &DT) {
+        int hoistAnticipatedExpressions(Function &F, DenseMap<BasicBlock*, BitVector> &OUT, DenseMap<Expression, unsigned int> &ExpressionToBitMap, DominatorTree &DT) {
     
-    int totalReplacements = 0;
-    outs() << "\n=== Starting Hoisting Process ===\n";
-    
-    DenseMap<unsigned int, Expression> BitToExpression;
-    for (const auto &Entry : ExpressionToBitMap) {
-        BitToExpression[Entry.second] = Entry.first;
-    }
-
-    DenseMap<Expression, Value*> HoistedExpressions;
-    DenseMap<Value*, Value*> ReplacementMap;
-
-    for (auto &BB : F) {
-        outs() << "\nProcessing Block: " << BB.getName() << "\n";
-        BitVector &anticipatedExprs = OUT[&BB];
-        
-        outs() << "OUT set for this block: ";
-        for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
-            outs() << anticipatedExprs[i];
-        }
-        outs() << "\n";
-
-        SmallVector<std::pair<unsigned, Expression>, 8> ExpressionsToHoist;
-        for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
-            if (anticipatedExprs[i]) {
-                Expression expr = BitToExpression[i];
-                ExpressionsToHoist.push_back({i, expr});
-            }
-        }
-
-        std::sort(ExpressionsToHoist.begin(), ExpressionsToHoist.end(),
-                 [](const auto &a, const auto &b) {
-                     return a.first < b.first;
-                 });
-
-        for (const auto &ExprPair : ExpressionsToHoist) {
-            unsigned i = ExprPair.first;
-            Expression expr = ExprPair.second;
+            int totalReplacements = 0;
+            outs() << "\n=== Starting Hoisting Process ===\n";
             
-            if (HoistedExpressions.count(expr) > 0) {
-                outs() << "Expression already hoisted, skipping...\n";
-                continue;
+            DenseMap<unsigned int, Expression> BitToExpression;
+            for (const auto &Entry : ExpressionToBitMap) {
+                BitToExpression[Entry.second] = Entry.first;
             }
 
-            unsigned opcode = get<0>(expr);
-            Value *op1 = get<1>(expr);
-            Value *op2 = get<2>(expr);
+            DenseMap<Expression, Value*> HoistedExpressions;
+            DenseMap<Value*, Value*> ReplacementMap;
 
-            if (ReplacementMap.count(op1)) {
-                op1 = ReplacementMap[op1];
-            }
-            if (ReplacementMap.count(op2)) {
-                op2 = ReplacementMap[op2];
-            }
+            for (auto &BB : F) {
+                outs() << "\nProcessing Block: " << BB.getName() << "\n";
+                BitVector &anticipatedExprs = OUT[&BB];
+                
+                outs() << "OUT set for this block: ";
+                for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
+                    outs() << anticipatedExprs[i];
+                }
+                outs() << "\n";
 
-            outs() << "\nProcessing expression at bit " << i << ":\n";
-            outs() << "  Original instruction string: ";
-            if (auto *I = dyn_cast<Instruction>(op1)) {
-                I->print(outs());
-            }
-            outs() << "\n";
-
-            outs() << "Found anticipated expression at bit " << i << "\n";
-            outs() << "Opcode: " << Instruction::getOpcodeName(opcode) << "\n";
-            outs() << "Operand 1: " << *op1 << "\n";
-            
-            if(opcode != Instruction::Call && opcode != Instruction::SIToFP) {
-                outs() << "Operand 2: " << *op2 << "\n";
-            }
-
-            outs() << "Hoisting to block: " << BB.getName() << "\n";
-
-            std::string hoistedName = "hoisted" + std::to_string(++HoistCounter);
-            IRBuilder<> Builder(&BB, BB.getTerminator()->getIterator());
-            
-            Value *newInst;
-            if (opcode == Instruction::SRem) {
-                newInst = Builder.CreateSRem(op1, op2, hoistedName);
-            } 
-            else if(opcode == Instruction::SIToFP) {
-                newInst = Builder.CreateSIToFP(op1, Type::getDoubleTy(F.getContext()), hoistedName);
-            }
-            else if(opcode == Instruction::Call) {
-                Function *ExpFunc = F.getParent()->getFunction("exp");
-                newInst = Builder.CreateCall(ExpFunc, op1, hoistedName);
-            }
-            else {
-                newInst = Builder.CreateBinOp(
-                    static_cast<Instruction::BinaryOps>(opcode),
-                    op1, op2, hoistedName);
-            }
-
-            if (BinaryOperator* binOp = dyn_cast<BinaryOperator>(newInst)) {
-                binOp->setHasNoSignedWrap(true);
-            }
-            
-            HoistedExpressions[expr] = newInst;
-            outs() << "Created new instruction: " << *newInst << "\n";
-
-            // Replace this part in your code
-            SmallVector<Instruction*, 8> InstToReplace;
-            for (auto &Block : F) {
-                for (auto &I : Block) {
-                    if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {
-                        if (binOp == newInst) continue;
-                        
-                        Value *curOp1 = binOp->getOperand(0);
-                        Value *curOp2 = binOp->getOperand(1);
-                        
-                        if (ReplacementMap.count(curOp1)) {
-                            curOp1 = ReplacementMap[curOp1];
-                        }
-                        if (ReplacementMap.count(curOp2)) {
-                            curOp2 = ReplacementMap[curOp2];
-                        }
-
-                        if (binOp->getOpcode() == opcode &&
-                            ((curOp1 == op1 && curOp2 == op2) ||
-                                (binOp->isCommutative() && 
-                                curOp1 == op2 && curOp2 == op1))) {
-                            InstToReplace.push_back(binOp);
-                        }
-                    }
-                    // Add handling for CastInst
-                    else if (auto *castInst = dyn_cast<CastInst>(&I)) {
-                        if (castInst == newInst) continue;
-                        
-                        Value *curOp = castInst->getOperand(0);
-                        if (ReplacementMap.count(curOp)) {
-                            curOp = ReplacementMap[curOp];
-                        }
-
-                        if (castInst->getOpcode() == opcode && curOp == op1) {
-                            InstToReplace.push_back(castInst);
-                        }
-                    }
-                    // Add handling for CallInst
-                    else if (auto *callInst = dyn_cast<CallInst>(&I)) {
-                        if (callInst == newInst) continue;
-                        
-                        if (callInst->getCalledFunction() && 
-                            callInst->getCalledFunction()->getName() == "exp") {
-                            Value *curOp = callInst->getArgOperand(0);
-                            if (ReplacementMap.count(curOp)) {
-                                curOp = ReplacementMap[curOp];
-                            }
-
-                            if (opcode == Instruction::Call && curOp == op1) {
-                                InstToReplace.push_back(callInst);
-                            }
-                        }
+                SmallVector<std::pair<unsigned, Expression>, 8> ExpressionsToHoist;
+                for (unsigned i = 0; i < anticipatedExprs.size(); ++i) {
+                    if (anticipatedExprs[i]) {
+                        Expression expr = BitToExpression[i];
+                        ExpressionsToHoist.push_back({i, expr});
                     }
                 }
-            }
 
-            outs() << "\nReplacing instructions:\n";
-            for (auto *I : InstToReplace) {
-                outs() << "  Replacing: " << *I << "\n";
-                ReplacementMap[I] = newInst;
-                I->replaceAllUsesWith(newInst);
-                I->eraseFromParent();
-                outs() << "  Replacement complete\n";
-                totalReplacements++;
-            }
-            outs() << "Total replacements: " << InstToReplace.size() << "\n";
-        }
-    }
-    
-    outs() << "\n=== Hoisting Process Complete ===\n";
-    return totalReplacements;
-}
+                std::sort(ExpressionsToHoist.begin(), ExpressionsToHoist.end(),
+                        [](const auto &a, const auto &b) {
+                            return a.first < b.first;
+                        });
+
+                for (const auto &ExprPair : ExpressionsToHoist) {
+                    unsigned i = ExprPair.first;
+                    Expression expr = ExprPair.second;
                     
+                    if (HoistedExpressions.count(expr) > 0) {
+                        outs() << "Expression already hoisted, skipping...\n";
+                        continue;
+                    }
 
-};
+                    unsigned opcode = get<0>(expr);
+                    Value *op1 = get<1>(expr);
+                    Value *op2 = get<2>(expr);
+
+                    if (ReplacementMap.count(op1)) {
+                        op1 = ReplacementMap[op1];
+                    }
+                    if (ReplacementMap.count(op2)) {
+                        op2 = ReplacementMap[op2];
+                    }
+
+                    outs() << "\nProcessing expression at bit " << i << ":\n";
+                    outs() << "  Original instruction string: ";
+                    if (auto *I = dyn_cast<Instruction>(op1)) {
+                        I->print(outs());
+                    }
+                    outs() << "\n";
+
+                    outs() << "Found anticipated expression at bit " << i << "\n";
+                    outs() << "Opcode: " << Instruction::getOpcodeName(opcode) << "\n";
+                    outs() << "Operand 1: " << *op1 << "\n";
+                    
+                    if(opcode != Instruction::Call && opcode != Instruction::SIToFP && opcode != Instruction::FPToSI && opcode != Instruction::UIToFP) {
+                        outs() << "Operand 2: " << *op2 << "\n";
+                    }
+
+                    outs() << "Hoisting to block: " << BB.getName() << "\n";
+
+                    std::string hoistedName = "hoisted" + std::to_string(++HoistCounter);
+                    IRBuilder<> Builder(&BB, BB.getTerminator()->getIterator());
+                    
+                    Value *newInst;
+                    if (opcode == Instruction::SRem) {
+                        newInst = Builder.CreateSRem(op1, op2, hoistedName);
+                    } 
+                    else if(opcode == Instruction::SIToFP || opcode == Instruction::FPToSI || opcode == Instruction::UIToFP) {
+                        
+                        if(opcode == Instruction::SIToFP) {
+                            newInst = Builder.CreateSIToFP(op1, Type::getDoubleTy(F.getContext()), hoistedName);
+                        }
+                        else if(opcode == Instruction::FPToSI) {
+                            newInst = Builder.CreateFPToSI(op1, Type::getInt32Ty(F.getContext()), hoistedName);
+                        }
+                        else {
+                            newInst = Builder.CreateUIToFP(op1, Type::getDoubleTy(F.getContext()), hoistedName);
+                        }
+
+                    }
+                    else if(opcode == Instruction::Call) {
+                        Function *ExpFunc = F.getParent()->getFunction("exp");
+                        newInst = Builder.CreateCall(ExpFunc, op1, hoistedName);
+                    }
+                    else {
+                        newInst = Builder.CreateBinOp(
+                            static_cast<Instruction::BinaryOps>(opcode),
+                            op1, op2, hoistedName);
+                    }
+
+                    if (BinaryOperator* binOp = dyn_cast<BinaryOperator>(newInst)) {
+                        binOp->setHasNoSignedWrap(true);
+                    }
+                    
+                    HoistedExpressions[expr] = newInst;
+                    outs() << "Created new instruction: " << *newInst << "\n";
+
+                    // Replace this part in your code
+                    SmallVector<Instruction*, 8> InstToReplace;
+                    for (auto &Block : F) {
+                        for (auto &I : Block) {
+                            if (auto *binOp = dyn_cast<BinaryOperator>(&I)) {
+                                if (binOp == newInst) continue;
+                                
+                                Value *curOp1 = binOp->getOperand(0);
+                                Value *curOp2 = binOp->getOperand(1);
+                                
+                                if (ReplacementMap.count(curOp1)) {
+                                    curOp1 = ReplacementMap[curOp1];
+                                }
+                                if (ReplacementMap.count(curOp2)) {
+                                    curOp2 = ReplacementMap[curOp2];
+                                }
+
+                                if (binOp->getOpcode() == opcode &&
+                                    ((curOp1 == op1 && curOp2 == op2) ||
+                                        (binOp->isCommutative() && 
+                                        curOp1 == op2 && curOp2 == op1))) {
+                                    InstToReplace.push_back(binOp);
+                                }
+                            }
+                            // Add handling for CastInst
+                            else if (auto *castInst = dyn_cast<CastInst>(&I)) {
+                                if (castInst == newInst) continue;
+                                
+                                Value *curOp = castInst->getOperand(0);
+                                if (ReplacementMap.count(curOp)) {
+                                    curOp = ReplacementMap[curOp];
+                                }
+
+                                if (castInst->getOpcode() == opcode && curOp == op1) {
+                                    InstToReplace.push_back(castInst);
+                                }
+                            }
+                            // Add handling for CallInst
+                            else if (auto *callInst = dyn_cast<CallInst>(&I)) {
+                                if (callInst == newInst) continue;
+                                
+                                if (callInst->getCalledFunction() && 
+                                    callInst->getCalledFunction()->getName() == "exp") {
+                                    Value *curOp = callInst->getArgOperand(0);
+                                    if (ReplacementMap.count(curOp)) {
+                                        curOp = ReplacementMap[curOp];
+                                    }
+
+                                    if (opcode == Instruction::Call && curOp == op1) {
+                                        InstToReplace.push_back(callInst);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    outs() << "\nReplacing instructions:\n";
+                    for (auto *I : InstToReplace) {
+                        outs() << "  Replacing: " << *I << "\n";
+                        ReplacementMap[I] = newInst;
+                        I->replaceAllUsesWith(newInst);
+                        I->eraseFromParent();
+                        outs() << "  Replacement complete\n";
+                        totalReplacements++;
+                    }
+                    outs() << "Total replacements: " << InstToReplace.size() << "\n";
+                }
+            }
+            
+            outs() << "\n=== Hoisting Process Complete ===\n";
+            return totalReplacements;
+        }
+                    
+    };
 }
 
 
