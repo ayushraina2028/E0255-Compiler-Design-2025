@@ -1,0 +1,77 @@
+\documentclass{article}
+
+\usepackage{listings} % For code formatting
+\usepackage[utf8]{inputenc}  % For encoding support
+\usepackage{amsmath}         % For mathematical formatting
+\usepackage{graphicx}        % For including images
+\usepackage{xcolor}
+\usepackage[a4paper, left=0.5in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}  % Adjust margins here
+\usepackage{tcolorbox}
+\usepackage{inconsolata}  % Use Inconsolata font (or replace with your choice)
+
+% Define colors
+\definecolor{codebg}{RGB}{240, 240, 240}  % Light gray background
+\definecolor{framecolor}{RGB}{100, 100, 100}  % Dark gray frame
+\definecolor{titlebg}{RGB}{30, 30, 30}  % Dark title background
+\definecolor{titlefg}{RGB}{255, 255, 255}  % White title text
+
+% Custom lstset
+\lstset{
+    language=C++,                    
+    basicstyle=\ttfamily\footnotesize\fontfamily{zi4}\selectfont, % Use Inconsolata
+    keywordstyle=\bfseries\color{blue},        
+    commentstyle=\itshape\color{gray},        
+    stringstyle=\color{red},          
+    numbers=left,                     
+    numberstyle=\tiny\color{blue},    
+    frame=single,                     
+    breaklines=true,                   
+    captionpos=b,                      
+    backgroundcolor=\color{codebg},  % Light gray background
+    rulecolor=\color{framecolor},    % Dark frame
+    tabsize=4                         
+}
+
+% Custom command to add a styled heading
+\newtcbox{\codebox}{colback=titlebg, colframe=titlebg, colupper=titlefg, 
+  boxrule=0pt, arc=5pt, left=5pt, right=5pt, top=3pt, bottom=3pt}
+
+\title{Parallel Programming Notes}
+\author{Ayush Raina}
+\date{\today}
+
+\begin{document} 
+
+\maketitle
+
+\subsection*{Sequential Fast Fourier Transform}
+Given an input array $X[1:n]$, we need to output the transformed array $Y[1:n]$ where $Y[i] = \sum_{k=0}^{n-1} X[k] \omega^{ik}$ and $0 \leq i \leq n$ where $\omega^{ik}$ is called the twiddle factor and is the primitive $n^{th}$ root of unity. $\omega = e^{-2\pi \sqrt{-1}/n}$ and $i = \sqrt{-1}$ generally called as iota. \\
+
+We can further simplify the computation as follows:
+$Y[i] = \sum_{k=0}^{\frac{n}{2}-1} X[2k] \omega^{2ik} + \sum_{k=0}^{\frac{n}{2}-1} X[2k+1] \omega^{(2k+1)i}$ \\
+$Y[i] = \sum_{k=0}^{\frac{n}{2}-1} X[2k] \omega^{2ik} + \omega^i \sum_{k=0}^{\frac{n}{2}-1} X[2k+1] \omega^{2ik}$ \\
+
+Putting the value of $\omega = e^{-2\pi i/n}$, we get the final Expression as:
+
+Add the remaining piece here
+
+\newpage
+
+\subsection*{Sequential FFT - Recursive Solution}
+\begin{lstlisting}
+
+procedure R_FFT(X,Y,n,w)
+if(n == 1) then Y[0] = X[0]
+
+begin
+  Add this
+
+\end{lstlisting}
+
+\subsection*{Sequential FFT - Iterative Solution}
+\begin{lstlisting}
+  procedure I_FFT(X,Y,n)
+  
+\end{lstlisting}
+
+\end{document}
