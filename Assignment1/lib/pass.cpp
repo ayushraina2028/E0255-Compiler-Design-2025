@@ -144,10 +144,63 @@ namespace {
                                 }
                             }
                         }
-                        // Track defined values to update Kill set
-                        if (!isa<BinaryOperator>(Inst)) {
-                            Defined.insert(&Inst);
+                        else if (auto *Cast = dyn_cast<CastInst>(&Inst)) {
+
+                        Value *op = Cast->getOperand(0);
+
+                        Expression exprKey = make_tuple(Cast->getOpcode(), op, nullptr);
+
+                        auto it = ExpressionToBitMap.find(exprKey);
+
+                        if (it != ExpressionToBitMap.end()) {
+
+                            unsigned int bitIndex = it->second;
+
+                            if (Defined.count(op)) {
+
+                                Kill[&BB].set(bitIndex);
+
+                            } else {
+
+                                Gen[&BB].set(bitIndex);
+
+                            }
+
                         }
+
+                    } else if (auto *Call = dyn_cast<CallInst>(&Inst)) {
+
+                        if (Call->getCalledFunction() && 
+
+                            Call->getCalledFunction()->getName() == "exp") {
+
+                            Value *op = Call->getArgOperand(0);
+
+                            Expression exprKey = make_tuple(Instruction::Call, op, nullptr);
+
+                            auto it = ExpressionToBitMap.find(exprKey);
+
+                            if (it != ExpressionToBitMap.end()) {
+
+                                unsigned int bitIndex = it->second;
+
+                                if (Defined.count(op)) {
+
+                                    Kill[&BB].set(bitIndex);
+
+                                } else {
+
+                                    Gen[&BB].set(bitIndex);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+                        // Track defined values to update Kill set
+                        Defined.insert(&Inst);
                     }
                 }
 
@@ -325,7 +378,11 @@ namespace {
             outs() << "Found anticipated expression at bit " << i << "\n";
             outs() << "Opcode: " << Instruction::getOpcodeName(opcode) << "\n";
             outs() << "Operand 1: " << *op1 << "\n";
-            outs() << "Operand 2: " << *op2 << "\n";
+            
+            if(opcode != Instruction::Call && opcode != Instruction::SIToFP) {
+                outs() << "Operand 2: " << *op2 << "\n";
+            }
+
             outs() << "Hoisting to block: " << BB.getName() << "\n";
 
             std::string hoistedName = "hoisted" + std::to_string(++HoistCounter);
@@ -355,6 +412,7 @@ namespace {
             HoistedExpressions[expr] = newInst;
             outs() << "Created new instruction: " << *newInst << "\n";
 
+            // Replace this part in your code
             SmallVector<Instruction*, 8> InstToReplace;
             for (auto &Block : F) {
                 for (auto &I : Block) {
@@ -373,9 +431,38 @@ namespace {
 
                         if (binOp->getOpcode() == opcode &&
                             ((curOp1 == op1 && curOp2 == op2) ||
-                             (binOp->isCommutative() && 
-                              curOp1 == op2 && curOp2 == op1))) {
+                                (binOp->isCommutative() && 
+                                curOp1 == op2 && curOp2 == op1))) {
                             InstToReplace.push_back(binOp);
+                        }
+                    }
+                    // Add handling for CastInst
+                    else if (auto *castInst = dyn_cast<CastInst>(&I)) {
+                        if (castInst == newInst) continue;
+                        
+                        Value *curOp = castInst->getOperand(0);
+                        if (ReplacementMap.count(curOp)) {
+                            curOp = ReplacementMap[curOp];
+                        }
+
+                        if (castInst->getOpcode() == opcode && curOp == op1) {
+                            InstToReplace.push_back(castInst);
+                        }
+                    }
+                    // Add handling for CallInst
+                    else if (auto *callInst = dyn_cast<CallInst>(&I)) {
+                        if (callInst == newInst) continue;
+                        
+                        if (callInst->getCalledFunction() && 
+                            callInst->getCalledFunction()->getName() == "exp") {
+                            Value *curOp = callInst->getArgOperand(0);
+                            if (ReplacementMap.count(curOp)) {
+                                curOp = ReplacementMap[curOp];
+                            }
+
+                            if (opcode == Instruction::Call && curOp == op1) {
+                                InstToReplace.push_back(callInst);
+                            }
                         }
                     }
                 }
