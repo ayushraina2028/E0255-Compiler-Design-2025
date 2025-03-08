@@ -68,9 +68,7 @@ namespace {
                 DenseMap<BasicBlock*, BitVector> Gen;
                 DenseMap<BasicBlock*, BitVector> Kill;
 
-                // Your existing analysis code here
                 // Step 1: Collect unique expressions
-
                 for (auto &BB : F) {
                     for (auto &Inst : BB) {
                         if (auto *BinOp = dyn_cast<BinaryOperator>(&Inst)) {
