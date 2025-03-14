@@ -8,3 +8,7 @@ LatexNotes/Part2/*
 !LatexNotes/Part2/*.pdf
 LatexNotes/ClassNotes/Thursday20Feb/*
 !LatexNotes/ClassNotes/Thursday20Feb/*.pdf
+LatexNotes/ClassNotes/Tuesday4March/*
+!LatexNotes/ClassNotes/Tuesday4March/*.pdf
+LatexNotes/Optimizations/*
+!LatexNotes/Optimizations/*.pdf

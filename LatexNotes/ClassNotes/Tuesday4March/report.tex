@@ -7,7 +7,7 @@
 \usepackage{xcolor}
 \usepackage[a4paper, left=0.5in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}  % Adjust margins here
 \usepackage{tcolorbox}
-\usepackage{inconsolata}  % Use Inconsolata font (or replace with your choice)
+\usepackage{palatino}  % Use Inconsolata font (or replace with your choice)
 
 % Define colors
 \definecolor{codebg}{RGB}{240, 240, 240}  % Light gray background
@@ -264,5 +264,147 @@ Now Lets consider table with all 6 possible orderings of loops. We will have the
 \end{center}
 
 This is a example of fully permutable loops. In this case we can interchange the loops in any order and we will get the same results but performance will be different. From above table we can find that $(i,k,j)$ and $(k,i,j)$ are best orderings and they differ in $N^2$ memory accesses. \\
+
+\section*{March 11, 2025}
+In the above example of matrix multiplication, with 3 loops. $i$ goes from $1 \rightarrow N$, $j$ goes from $1 \rightarrow N$ and $k$ goes from $1 \rightarrow N$. There are $N^3 ! $ possible orderings of these loops. We saw 6 of them in the previous example in which dependence is not violated. We want to find out how many are valid execution orders which do not violate the dependencies. \\
+
+\textbf{Note:} Floating Point operations are not associative. On changing the order, overflow can occur. \\
+
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        for(k = 0;k < N; ++k) {
+            C[i][j] += A[i][k] * B[k][j];
+        }
+    }
+}
+\end{lstlisting}
+If $k$ is innermost loop then we have $N^2!$ possible orderings which are all valid. But when Loop if of the form $i,k,j$ then we some more which we need to count. \\ 
+
+Given a nested loop and access conditions, we need to find about temporal and spatial locality. Consider the following code block:
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        for(k = 0;k < N; ++k) {
+            A[i][j + 2*i + k] /* is accessed */
+        }
+    }
+}
+\end{lstlisting}
+
+We can write the access as matirx(A) vector(V) product where:
+
+$A = \begin{bmatrix}
+    1 & 0 & 0 \\
+    2 & 1 & 1 
+\end{bmatrix}$ and 
+$B = \begin{bmatrix}
+    i \\ j \\ k
+\end{bmatrix}$
+
+\subsection*{Identifying Spatial Reuse}
+In General for a iteration vector $\vec{i} = (i_1,i_2,\ldots,i_n)$, there is spatial reuse for $i_k$ if $k^{th}$ column has a small non zero element which be possibly negative only in the last row. All other elements in $k^{th}$ column are zero. \\
+
+\subsection*{Identifying Temporal Reuse}
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        for(k = 0;k < N; ++k) {
+            A[i][k] /* is accessed */
+        }
+    }
+}
+\end{lstlisting}
+In this loop, we have temporal reuse over $k$ loop. \textcolor{red}{(Check and add this)} \\
+
+
+Consider this code block:
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        A[i+j][2(i+j)] /* is accessed */
+    }
+}
+\end{lstlisting}
+Is there a temporal reuse in this kind of memory access ? In this case around 2N unique elements are accessed but there are $N^2$ iteration vectors, so there is kind of pseudo temporal reuse (Do they access same element at any point ?) \\
+
+Consider another code block:
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        for(k = 0;k < N; ++k) {
+            A[i][1+j+k][j+k] /* is accessed */
+        }
+    }
+}
+\end{lstlisting}
+
+The access matrix for the above memory access is:
+$A = \begin{bmatrix}
+    1 & 0 & 0 \\
+    1 & 1 & 1 \\
+    0 & 1 & 1
+\end{bmatrix}$ and loop vector is $B = \begin{bmatrix}
+    i \\ j \\ k
+\end{bmatrix}$
+
+Access matrix may not be square matrix. Dimensions of the array can be more than the number of loops. Again if 3 dimensional iteration space containing iteration vectors are accessing a 2D matrix there has to be temporal reuse. \\  
+
+An Access has no temporal reuse if $M$ has full column rank, where $M$ is the access matrix. We can also say like this for $\vec{v} \neq \vec{v}' \implies M\vec{v} \neq M\vec{v}' \implies M(\vec{v} - \vec{v}') \neq 0$. \\
+Hence for temporal reuse $\exists \; \vec{v} \neq \vec{v}'$ such that $M(\vec{v} - \vec{v}') = 0$. This means $(\vec{v} - \vec{v}') \in$ NULL$(M)$. \\
+
+In the above definitions we were talking about self spatial and self temporal reuse. Consider the following code block:
+\begin{lstlisting}
+    for(int i = 0;i < N; i++) {
+        A[i] + A[i+1] + A[i+2] /* is accessed */
+    }
+\end{lstlisting}
+This is an example of $\theta(1)$ Temporal Reuse. Most of the Deep Learning Computations have very high temporal reuse $\sim \theta(N^2)$. \\
+
+\subsection*{Degree of Temporal Reuse}
+Degree of Temporal Reuse, depends on the rank of the access matrix. If the rank of the access matrix is $r$ then the degree of temporal reuse is $N-r$. \\
+
+\begin{lstlisting}
+for(int i = 0;i < N; i++) {
+    B[A[i]]; /* is accessed */
+}
+\end{lstlisting}
+
+These kinds of accesses are called indirect accesses. It is not easy to find about locality of these kind of accesses at compile time. \\
+
+\section*{March 13}
+If we have full column rank for the access matrix, then the transformation is one to one and in this case there will be no temporal reuse. \\
+Today we will look at another loop transformation called Loop Tiling for exploiting Temporal Locality. This is also called Loop Blocking. Let us go back to our old matrix multiplication example. \\
+
+\begin{lstlisting}
+for(i = 0;i < N; ++i) {
+    for(j = 0;j < N; ++j) {
+        for(k = 0;k < N; ++k) {
+            C[i][j] += A[i][k] * B[k][j];
+        }
+    }
+}
+\end{lstlisting}
+In Loop Interchange $(i,k,j)$ the best we could do is $\theta(N^3/L)$ cache misses. Can we do better ? In the above case we are not getting temporal reuse for $B$ and this will slow us down. \\
+
+When we need simultaneous reuse along multiple dimensions of the iteration space, here will be using loop tiling. We are given that $c << N^2e$ where $e$ is the number of elements in the cache line and c is cache size. If we carefully observe, to compute row $C[i]$ the $A[i]$ row is fixed and is multiplied with all the columns of $B$ to get the row $C[i]$. Once $C[i][j]$ is computer, now to compute $C[i][j+1]$ the $A[i][0]$ may not be present in the cache due to its small size. \\
+
+Suppose we do tiling with block size $B$ in horizontal direction then number of cache misses: \\
+$M(A) = \frac{B}{L} \times \frac{N}{B} \times \frac{N}{B} \times N = \frac{N^3}{BL}$ \\
+$M(B) = \frac{B^2}{L} \times \frac{N}{B} \times \frac{N}{B} \times N = \frac{N^3}{L}$ \\
+$M(C) = \frac{B}{L} \times \frac{N}{B} \times N = \frac{N^2}{L}$, since both read and write is there so $\frac{2N^2}{L}$ \\
+
+Since for $B$ Temporal Reuse is along $i$ direction and I am currently finishing whole $j-k$ plane before moving to next $i$ plane. Now we will take 3D Tile Block.Assumption is if $B^2/L$ elements fits into cache then along $i$ direction, we will have all hits once these elements are loaded. Hence $B^2e <= c$. \\
+
+$M(B) = \frac{B^2}{L} \times \frac{N}{B} \times \frac{N}{B} \times \frac{N}{B} = \frac{N^3}{BL}$ \\
+$M(A) = \frac{B}{L} \times B \times \frac{N}{B} \times \frac{N}{B} \times \frac{N}{B} = \frac{N^3}{BL}$ \\
+$M(C) = \frac{B^2}{L} \times \frac{N}{B} \times \frac{N}{B} = \frac{N^2}{L}$, but there is read and write so $\frac{2N^2}{L}$ \\
+
+Hence $e \times (B^2 + B^2 + B^2) \leq c \implies B \leq \sqrt{\frac{c}{3e}}$. Add calculation for $B$ here for different sizes of $c$, generally $c = 256$kb. From a old paper, the lower bound on cache misses is $\theta(\frac{N^3}{\sqrt{C}})$ for matrix multiplication. In this case Tile Size $T \propto \sqrt{c}$. In this case we choosed same $B$ along all dimensions, but can we choose different $B$ along different dimensions and we need to do the analysis for this. \\
+
+\subsection*{Point of Diminishing Returns}
+As we increase the tile size, the increase in cache hit percentage will keep decreasing. Suppose for $B = 2,4,8,16,32,64,128$ then cache hit percentages are $0.5,0.75,0.875,0.9375,0.96875,0.984375,0.9921875$. Hence we can see that the increase in cache hit percentage is decreasing. This is called Point of Diminishing Returns. \\
+
+Learn about 4 way associative cache and how conflicts will be handled if we use this cache. \\
 
 \end{document}

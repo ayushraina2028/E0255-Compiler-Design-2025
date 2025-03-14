@@ -1,24 +1,18 @@
-define dso_local i32 @not_anticipated_switch(i32 noundef %0, ptr noundef %1) {
-  switch i32 %0, label %8 [
-    i32 0, label %3
-    i32 1, label %3
-    i32 2, label %3
-  ]
+define dso_local i32 @not_anticipated_for_loop(i32 noundef %0, ptr noundef %1) {
+  br label %3
 
-3:                                                ; preds = %2, %2, %2
-  %4 = urem i32 %0, 2
-  %5 = mul i32 %4, %4
-  %6 = add i32 %5, %4
-  %7 = add i32 %6, 3
-  br label %12
+3:                                                ; preds = %8, %2
+  %4 = phi i32 [ undef, %2 ], [ %10, %8 ]
+  %5 = phi i32 [ 0, %2 ], [ %11, %8 ]
+  %6 = icmp ult i32 %5, 10
+  br i1 %6, label %8, label %7
 
-8:                                                ; preds = %2
-  %9 = mul i32 %0, %0
-  %10 = add i32 %9, %0
-  %11 = add i32 %10, 2
-  br label %12
+7:                                                ; preds = %3
+  ret i32 %4
 
-12:                                               ; preds = %8, %3
-  %13 = phi i32 [ %11, %8 ], [ %7, %3 ]
-  ret i32 %13
+8:                                                ; preds = %3
+  %9 = mul nsw i32 %0, %0
+  %10 = srem i32 %9, %0
+  %11 = add i32 %5, 1
+  br label %3
 }
