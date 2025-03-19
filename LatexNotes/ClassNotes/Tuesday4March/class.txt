@@ -1,0 +1,21 @@
+To measure time we can simply use time ./a.out
+gcc -O1 matmul.c -DTIME (to show flops)
+
+For naive implementation of matmul sir got 6.3 Seconds, now we changed (i,j,k) -> (i,k,j) to get 2.81 seconds and 2.40 GFLOPS, where has previously it was around 1.08
+
+Read about perf
+perf stat -B -e cache-references, cache-misses, cycles ./a.out (This will give a report to see)
+perf stat -B -e cache-reference,LLC-load-misses ./a.out
+
+In  (i,k,j) 99% were cache misses around 17Million, in normal order (i,j,k) run the second command above to see, it should be 8 times slower.
+
+Now lets try with -O3 with (i,j,k)
+128 million cache misses, 3.92 seconds now, you can check TLB Misses also using perf stat 
+Try (i,k,j) with -O3 
+
+Now we are running tiled matmul with -O3 
+0.97 seconds with 6.95 GFLOPS 
+
+For running with -O1 we get 1.44 secs and 4.69 GFLOPS
+For this tiled code with -O1 we get 82K cache misses, which previously was in 120 million -> 16 million -> 82K, around 1700 times better 
+but in performance we get only 2-3 times speedup

@@ -407,4 +407,86 @@ As we increase the tile size, the increase in cache hit percentage will keep dec
 
 Learn about 4 way associative cache and how conflicts will be handled if we use this cache. \\
 
+\section*{March 18,2025}
+Code for Tiled Matrix Multiplication in 3 dimensions: Suppose we choose tile size $B$, we will have 3D Tile Block. This reduces cache misses by a factor of $B$, where $B \sim \mathcal{O}(\sqrt{C})$. \\
+\begin{lstlisting}
+for(int i = 0;i < N; i += B) { /* Tile Control Loop 1 */
+    for(int j = 0;j < N; j += B) { /* Tile Control Loop 2 */
+        for(int k = 0;k < N; k += B) { /* Tile Control Loop 3 */
+            
+            for(int ii = 0; ii < i+B; ii++) { /* Loop 1 */
+                for(int jj = 0; jj < j+B; jj++) { /* Loop 2 */
+                    for(int kk = 0; kk < k+B; kk++) { /* Loop 3 */
+                        C[ii][jj] += A[ii][kk] * B[kk][jj];
+                    }
+                }
+            }
+
+        }
+    }
+}
+\end{lstlisting}
+
+There can be the case in which $B \not| N$. Then we need to change the inner loop bounds to get the following code
+\begin{lstlisting}
+for(int i = 0;i < N; i += B) { /* Tile Control Loop 1 */
+    for(int j = 0;j < N; j += B) { /* Tile Control Loop 2 */
+        for(int k = 0;k < N; k += B) { /* Tile Control Loop 3 */
+            
+            for(int ii = i; ii < min(i+B,N); ii++) { /* Loop 1 */
+                for(int jj = j; jj < min(j+B,N); jj++) { /* Loop 2 */
+                    for(int kk = k; kk < min(k+B,N); kk++) { /* Loop 3 */
+                        C[ii][jj] += A[ii][kk] * B[kk][jj];
+                    }
+                }
+            }
+
+        }
+    }
+}
+\end{lstlisting}
+
+We also do not need to compute min in every iteration, since $i$ does not depend on $ii$ and same for $j,k$. We can precompute these values and use them in the loop to get the following code block:
+
+\begin{lstlisting}
+for(int i = 0;i < N; i += B) { /* Tile Control Loop 1 */
+    for(int j = 0;j < N; j += B) { /* Tile Control Loop 2 */
+        for(int k = 0;k < N; k += B) { /* Tile Control Loop 3 */
+            
+            int ii_end = min(i+B,N); /* Precomputed Value 1 */
+            int jj_end = min(j+B,N); /* Precomputed Value 2 */
+            int kk_end = min(k+B,N); /* Precomputed Value 3 */
+
+            for(int ii = i; ii < ii_end; ii++) { /* Loop 1 */
+                for(int jj = j; jj < jj_end; jj++) { /* Loop 2 */
+                    for(int kk = k; kk < kk_end; kk++) { /* Loop 3 */
+                        C[ii][jj] += A[ii][kk] * B[kk][jj];
+                    }
+                }
+            }
+
+        }
+    }
+}
+\end{lstlisting}
+In General, Tiling results in $2n$ loop nest from $n$ loop nest. But we can also choose to tile only few loops and not all loops. Now we will look at the conditions for validity of Tiling, when it is okay to change the execution order like above and when it is not okay. \\
+
+\subsection*{Validity of Tiling}
+The following is the sufficient condition for validity of tiling: The tiling is valid if and only if there is no cyclic dependence between tiling and we should be able to come up with a total order to schedule the tiles. This is not a necessary condition as we can construct a example in which Tile $(0,1)$ depends on Tile $(0,0)$ and Tile $(1,0)$ depends on $(0,1)$ through a back edge, but I choosed my Tile size in such a way that back edge goes to above tile to avoid the cycle.
+
+\bigskip
+
+For example $(i,j)$ in iteration space and other points $(i+1,j),(i,j+1),(i+1,j-1)$ all three depends on $(i,j)$ then we cannot tile here, as it will create a cycle. In contrast to this we say tiling along a certain dimension is valid if all the components of dependence vector are positive or negative. We can also say that dependence should be in the same direction along a dimension. \\
+Can we apply some loop transformation to make all dependences in same direction so that tiling is now valid ? \\
+
+\subsection*{Affine Transformations}
+These transformations can enable tiling. \\
+\textbf{Skew: } $T(i,j) = (i,i+j)$. As you go up, shift the $j$ by factor of $i$. This transformation is called Skew Transformation. \\ 
+Add the example from uday sir's slides here. \\
+
+\subsection*{Different kinds of cache misses}
+Write about cold misses, conflict misses, capacity misses, compulsory misses. \\
+
+Explicit Copying: Add about This
+THis benefits in eliminating conflict misses, TLB Misses and overheads gets ammortized. Prefetching works smoothly and improves its performance. \\
 \end{document}
