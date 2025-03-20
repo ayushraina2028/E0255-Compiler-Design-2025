@@ -19,3 +19,5 @@ Now we are running tiled matmul with -O3
 For running with -O1 we get 1.44 secs and 4.69 GFLOPS
 For this tiled code with -O1 we get 82K cache misses, which previously was in 120 million -> 16 million -> 82K, around 1700 times better 
 but in performance we get only 2-3 times speedup
+
+March 20, 2025

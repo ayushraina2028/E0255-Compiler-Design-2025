@@ -489,4 +489,148 @@ Write about cold misses, conflict misses, capacity misses, compulsory misses. \\
 
 Explicit Copying: Add about This
 THis benefits in eliminating conflict misses, TLB Misses and overheads gets ammortized. Prefetching works smoothly and improves its performance. \\
+
+\section*{March 20, 2025}
+We covered the following topics till now:
+\begin{itemize}
+    \item Loop Interchange
+    \item Loop Permutation 
+    \item Loop Tiling
+    \item Explicit Copying - Add about This. This is also called packing and unpacking. It improves locality by eliminating conflict misses and TLB capacity misses. Improves Prefetching.
+\end{itemize}
+
+Loop transformations consists of following steps:
+\begin{itemize}
+    \item Dependence Analysis
+    \item transformation based on cost model
+    \item Code Generation - Transforming the IR.
+\end{itemize}
+
+
+\textbf{Example 1:}
+\subsection*{Loop Skewing}
+Consider the following 2D loop nest:
+\begin{lstlisting}
+for(int i = 0;i < N; i++) {
+    for(int j = 0;j < N; j++) {
+        a[i][j] = a[i-1][j] + a[i-1][j-1] + a[i-1][j+1];
+    }
+}
+\end{lstlisting}
+Assume that this nest has following dependences: $\mathcal{D} = \{(1,0),(1,1),(1,-1)\}$, Here skew transformation can be applied to make all dependences in the same direction. This transformation can be represented in matrix form as follows:
+$\begin{bmatrix}
+    1 & 0 \\
+    1 & 1 
+\end{bmatrix} \begin{bmatrix}
+    i \\ j
+\end{bmatrix} = \begin{bmatrix}
+    i \\ i+j
+\end{bmatrix}$
+
+New Loop variables: $(t_1,t_2) = (i,i+j)$, now we have to eliminate $(i,j)$ from the following system of equations: 
+\title{Original System} \\
+1. $t_1 = i$ \\
+2. $t_2 = i+j$ \\
+3. $0 \leq i \leq N-1$ \\
+4. $0 \leq j \leq N-1$ \\
+
+\title{New System} \\
+1. $0 \leq t_1 \leq N-1$ \\
+2. $0 \leq t_2-t_1 \leq N-1 \implies 0 \leq t_2 \leq N+t_1-1$ \\
+
+We have to first eliminate old loop variables then successively apply Fourier Motzkin Elimination one by one to get bounds for new loop variables starting from inner most loop variable to outermost loop variable. In the above system after applying Fourier Motzkin Elimination we get: $N \geq 1, 0 \leq  t_1 \leq N-1$ which turns out be same as earlier in this case. \\
+
+Hence our transformed dependences in this case are: $\mathcal{D}' = \{(1,1),(1,2),(1,0)\}$ after applying skew transformation. \\
+
+\textbf{Example 2:}
+Now consider the following transformation: $\text{T(i,j)} = (i+j,j)$. This transformation can be represented in matrix form as follows:
+$\begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+\end{bmatrix} \begin{bmatrix}
+    i \\ j
+\end{bmatrix} = \begin{bmatrix}
+    i+j \\ j
+\end{bmatrix}$
+
+This transnformation is not valid in above case, since after applying this there will still be a negative component in dependence vector. \\
+For now consider the following code:
+\begin{lstlisting}
+for(int i = 0;i < N; i++) {
+    for(int j = 0;j < N; j++) {
+        a[i][j] = a[i-1][j] + a[i][j-1];
+    }
+}
+\end{lstlisting}
+
+This has $\mathcal{D} = \{(0,1),(1,0)\}$. We want to calculate new loop bounds for $(t_1,t_2)$ after applyig this transformation: $\begin{bmatrix}
+    1 & 1 \\
+    0 & 1
+\end{bmatrix}$
+
+\title{Original System} \\
+1. $t_1 = i+j$ \\
+2. $t_2 = j$ \\
+3. $0 \leq i \leq N-1$ \\
+4. $0 \leq j \leq N-1$ \\
+
+\title{New System} \\
+1. On Eliminating $j$ from original system we get: \\
+a. $0 \leq t_2 \leq N-1$ \\
+b. $i = t_1 - t_2$ \\
+c. $0 \leq i \leq N-1$ \\
+
+2. On Eliminating $i$ from original system we get: \\
+a. $0 \leq t_2 \leq N-1$ (Same as above) \\
+b. $0 \leq t_1 - t_2 \leq N-1$ (New) \\
+
+Now we can write these 2 inequalities as: \\
+a. $t_2 \geq 0$ and $t_2 \geq t_1 - N + 1$ from first and second inequality respectively. \\
+b. $t_2 \leq t_1$ and $t_2 \leq N-1$ from first and second inequality respectively. \\
+
+Hence innner loop bounds are $\boxed{max(0,t_1-N+1) \leq t_2 \leq min(t_1,N-1)}$. From above equations we can see that $N \geq 1$. Since $t_2 \leq N-1$ Hence $0 \leq t_1 \leq 2N-1$. \\
+
+Here is the final code:
+\begin{lstlisting}
+for(int t = 0; t < 2*N - 2; t++) {
+    for(int u = max(0,t-N+1); u <= min(t,N-1); u++) {
+        a[t-u][u] = a[t-u-1][u] + a[t-u][u-1];
+    }
+}
+\end{lstlisting}
+
+\textbf{Example 3: } Consider the following code block:
+\begin{lstlisting}
+for(int i = 0;i < N; i++) {
+    for(int j = 0;j < i; j++) {
+        /* Do Some Work */
+    }
+}
+\end{lstlisting}
+
+If we apply the transformation $\text{T(i,j)} = (j,i)$ then after fourier motzkin elimination we get the following bounds for new loop variables: $0 \leq t_1 \leq N-1$ and $t_1 \leq t_2 \leq N-1$. Hence the new code block will be:
+
+\begin{lstlisting}
+for(int t = 0; t < N; t++) {
+    for(int u = t; u < N; u++) {
+        /* Do Some Work */
+    }
+}
+\end{lstlisting}
+
+\subsection*{Carrying or Satisfying a Dependence}
+Consider the following code block:
+\begin{lstlisting}
+for(int i = 0;i < N; i++) {
+    for(int j = 0;j < N; j++) {
+        for(int k = 0;k < N; k++) {
+            /* Do Some Work */
+        }
+    }
+}
+\end{lstlisting}
+Suppose we have dependence $\mathcal{D} = \{((1,0,1), (0,0,1), (1,1,0) \}$. We say that $i^{th}$ loop carries the dependence if index of leftmost element of the dependence vector is $i$. In this case $i^{th}$ loop carries the dependence. \\
+
+We say that a loop is \textbf{parallel} if it does not carry any dependence. In above dependences dependence carrying loops are $i,k,i$ respectively. So in this case for a given $i$, the $j$ loop is parallel. \\
+
 \end{document}
