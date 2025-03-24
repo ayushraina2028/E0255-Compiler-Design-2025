@@ -14,3 +14,5 @@ LatexNotes/ClassNotes/Tuesday4March/*
 !LatexNotes/ClassNotes/Tuesday4March/matmul.c
 LatexNotes/Optimizations/*
 !LatexNotes/Optimizations/*.pdf
+LatexNotes/MLIR/*
+!LatexNotes/MLIR/*.pdf
