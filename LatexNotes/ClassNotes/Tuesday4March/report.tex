@@ -633,4 +633,12 @@ Suppose we have dependence $\mathcal{D} = \{((1,0,1), (0,0,1), (1,1,0) \}$. We s
 
 We say that a loop is \textbf{parallel} if it does not carry any dependence. In above dependences dependence carrying loops are $i,k,i$ respectively. So in this case for a given $i$, the $j$ loop is parallel. \\
 
+\section*{March 25, 2025}
+\subsection*{Affine Expressions in MLIR}
+$l(\vec{x})$ is a linear function if it can be written as $l(\vec{x}) = \mathcal{A}\vec{x}$. $l_a(\vec{x})$ is affine expression if it can be written as $l_a(\vec{x}) = \mathcal{A}\vec{x} + b$. \\
+
+An affine map maps zero or more identities to one or more result affine expressions, which can be multi dimensional also. For example: \\ 
+1. \textbf{\#map1 = (d0) $\rightarrow$ (d0-4)} \\
+2. \textbf{\#map2 = (d0,d1) $\rightarrow$ (d0+d1, d0-d1)} \\ 
+
 \end{document}
