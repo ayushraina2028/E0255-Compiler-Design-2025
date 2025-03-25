@@ -1,0 +1,5 @@
+Here we will see how to convert MLIR to LLVM IR
+
+1. mlir-opt --convert-func-to-llvm --convert-arith-to-llvm filename.mlir -o LowerLevel.mlir
+2. mlir-translate --mlir-to-llvmir LowerLevel.mlir -o filename.ll 
+3. rm LowerLevel.mlir
