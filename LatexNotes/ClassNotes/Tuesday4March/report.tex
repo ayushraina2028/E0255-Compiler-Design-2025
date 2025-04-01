@@ -641,4 +641,26 @@ An affine map maps zero or more identities to one or more result affine expressi
 1. \textbf{\#map1 = (d0) $\rightarrow$ (d0-4)} \\
 2. \textbf{\#map2 = (d0,d1) $\rightarrow$ (d0+d1, d0-d1)} \\ 
 
+\section*{March 27, 2025}
+
+Remember that Types never change during execution, every operation strictly requires matching types. We can also define custom types in new dialects.
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Types Relevant for Dense Matrices / Tensors}]
+    Add about this later. Checkout slides for details. In particular add about: \\
+    1. tensor \\
+    2. memref \\
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Polyhedral Structures in IR}]
+    Add about this later. Checkout slides for details. In particular add about: \\
+    1. Affine Expressions \\
+    2. Affine Maps \\
+    3. Integer Sets \\
+    4. Affine apply operation \\
+    5. Affine If operation \\
+    6. Affine For operation \\
+\end{tcolorbox}
+
+\subsection*{Transformations for Parallelism}
+Techniques used for parallelization include \textbf{Interchange: } can give rise to outer parallism which is sync free parallelism, \textbf{Loop Skewing: } can expose inner parallelism, \textbf{Loop Tiling}. There is something called \textbf{Tiling for Parallelism}. \\
 \end{document}
