@@ -16,3 +16,7 @@ LatexNotes/Optimizations/*
 !LatexNotes/Optimizations/*.pdf
 LatexNotes/MLIR/*
 !LatexNotes/MLIR/*.pdf
+LatexNotes/Chapter11/*
+!LatexNotes/Chapter11/*.pdf
+MLIR
+MLIR_Pass_demo

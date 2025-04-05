@@ -663,4 +663,37 @@ Remember that Types never change during execution, every operation strictly requ
 
 \subsection*{Transformations for Parallelism}
 Techniques used for parallelization include \textbf{Interchange: } can give rise to outer parallism which is sync free parallelism, \textbf{Loop Skewing: } can expose inner parallelism, \textbf{Loop Tiling}. There is something called \textbf{Tiling for Parallelism}. \\
+
+\newpage
+\section*{April 3, 2025}
+
+Consider the dependence $(1,0,0)$, here $j,k$ loops are parallel. We can do the transformation $T = \begin{bmatrix}
+    0 & 0 & 1 \\
+    0 & 1 & 0 \\
+    1 & 0 & 0
+\end{bmatrix}$, this will give us the following transformation when multiplied with the vector $\begin{bmatrix}
+    i \\ j \\ k
+\end{bmatrix}$ = $\begin{bmatrix}
+    k \\ j \\ i
+    \end{bmatrix}$. Similarly $(j,k,i)$ is also a valid transformation. To decide which one to use, we need to consider other factors like locality. \\
+
+Let $m$ be the dimensionality of iteration space, Let $\mathcal{D}$ be the dependence matrix, then $m - Rank(\mathcal{D})$ gives degrees of synchronization free parallelism. \\
+
+When Outer Loop is sequential and inner loop is parallel, then we call it \textbf{Parallelism with synchronization}. Check slide 9 for example. \\
+Add about \textbf{do Across and do All Parallelism}. Check Slide 33 for reference. \\
+
+\textbf{Tilings: } In General tiling functions map $n$ dimensional iteration space to $2n$ dimensional iteration space. Can we have a transformation $T(i_1,i_2,....,i_n) = (i_1,i_2,...,i_{2n})$. Yes, we can have this transformation. Here is a example of rectangular tiling of skewed iteration space: \\
+$\boxed{T(i,j) = (\lfloor \frac{i}{64} \rfloor, \lfloor \frac{i+j}{64} \rfloor, i, i+j)}$. Check slide 45 for another example which has 3D space. \\
+
+\textbf{Loop Fusion: } Combining two loops into one loop. Opposite of this is called loop distribution. We need to discuss, what are its benefits and when it is valid to do so . Add about \textbf{producer-consumer reuse} which is a form of temporal reuse. Add about \textbf{Input reuse} which is in the case of sibling fusion. It reduces loop overheads. It also reduces code size. \\
+
+\textbf{Downsides of Fusion: }Fusion can result in more dependences, which can result in loss of useful transformations that could lead to parallelism, tilings and vectorization. \\
+It can lead to more cache misses (conflict misses). Add about this one. Fusion can be bad for capacity misses. Add about this also. \\
+It increases register pressure also. Add more about this one. \\
+It can also decrease the Prefetching performance. Add about this one. \\
+
+\textbf{Validity of Fusion: } Check Slide 47 for fusion.
+
+\section*{April 4, 2025}
+
 \end{document}
