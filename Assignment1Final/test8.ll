@@ -14,11 +14,11 @@ define dso_local i32 @not_anticipated_for_loop(i32 noundef %0, ptr noundef %1) {
   ; CHECK: mul
   ; CHECK-NEXT: srem
   ; CHECK-NEXT: add
-  ; CHECK-NEXT: br label %{{.*}}, !llvm.loop 
+  ; CHECK-NEXT: br label %{{.*}}, !llvm.loop
 
 8:                                                ; preds = %3
   %9 = mul nsw i32 %0, %0
   %10 = srem i32 %9, %0
   %11 = add i32 %5, 1
-  br label %3
+  br label %3, !llvm.loop !3
 }

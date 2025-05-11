@@ -1,0 +1,15 @@
+def AffineLoopInterchange : Pass<"affine-loop-interchange", "func::FuncOp"> {
+  let summary = "Interchange affine loops to improve locality and parallelism";
+  let description = [{
+    A pass that performs loop interchange to optimize for:
+    - Spatial and temporal locality
+    - Minimizing synchronization in multicores
+    Supports both perfectly and imperfectly nested loop nests
+  }];
+  let constructor = "mlir::affine::createAffineLoopInterchangePass()";
+}
+
+/// Creates a pass to interchange affine loops for improved locality and parallelism
+std::unique_ptr<OperationPass<func::FuncOp>> createAffineLoopInterchangePass();
+
+# Add name in CMakeLists.txt
